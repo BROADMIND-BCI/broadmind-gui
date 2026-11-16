@@ -88,9 +88,10 @@ spinner — is strictly black / white / grey / text grey.
 
 ## 5. Status
 
-The restyle **builds** with Processing 4 and the bundled libraries. It has **not** been run against
-real hardware, and the visual result has not been reviewed by a designer on every screen. Treat the
-first pass as a brand application to review, not a finished redesign.
+The restyle **builds and runs** with Processing 4. It was run on macOS arm64 and the control panel
+was captured for [docs/screenshots](docs/screenshots). It has **not** been run against real hardware,
+and the session views have not been captured or reviewed by a designer. Treat the first pass as a
+brand application to review, not a finished redesign.
 
 Build:
 
@@ -107,3 +108,42 @@ Forked from `OpenBCI/OpenBCI_GUI`, MIT. The BROADMIND mark and lockup are BROADM
 not covered by the upstream MIT licence; they are included because this build is BROADMIND's own
 product — do not redistribute them separately. **Geometria is not included** (see §1): it is a
 commercial license, and shipping it is a decision for whoever holds it.
+
+---
+
+## 7. Fixes applied on top of upstream
+
+These are defects found by actually running the build, not by reading it.
+
+### 7.1 The application died on startup on Apple Silicon
+
+`libraries/LSLLink/library/jna.jar` bundled a JNA from 2018 whose `libjnidispatch.jnilib` is an
+**i386 + x86_64 fat binary with no arm64 slice**. Because sketch libraries precede the Processing
+runtime on the classpath, that stale copy won, and the app crashed on first use of native code:
+
+```
+UnsatisfiedLinkError: ... (fat file, but missing compatible architecture
+(have 'i386,x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64'))
+A library used by this sketch relies on native code that is not available.
+```
+
+An unmodified upstream checkout at `d8543aa` fails the same way, so this is inherited, not caused by
+the restyle. Fixed here by **removing the bundled JNA jars** (`LSLLink/library/` and
+`LSLLink/bin/library/`), so the application uses Processing's own JNA 5.19.1, which ships a
+`darwin-aarch64` native. Verify with:
+
+```bash
+file OpenBCI_GUI/libraries/*/library/jna.jar   # should not exist any more
+```
+
+### 7.2 Visual defects introduced by the first palette pass, then fixed
+
+| Defect | Cause | Fix |
+|---|---|---|
+| Entire workspace rendered black | `background(OPENBCI_DARKBLUE)` became black once that token was mapped to ink | `background(WHITE)` |
+| "System Control Panel" and hovered rows were white-on-grey (1.5:1) | button hover/pressed backgrounds were mapped to the brand grey while their captions stayed white | hover `#595959` (6.4:1), pressed black (21:1) |
+| Footer still sent people to `docs.openbci.com` | upstream help text | reads `BROADMIND GUI - broadmind.me` |
+| "Shop" opened the OpenBCI store | upstream nav button | relabelled "Kit", opens `broadmind.me` |
+
+The rule that came out of this: **the brand grey is a surface colour for dark text only. Any control
+that draws white captions must sit on ink.**

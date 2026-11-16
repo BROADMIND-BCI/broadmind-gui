@@ -263,10 +263,10 @@ final color GREY_20 = BLACK;
 final color TURN_ON_GREEN = BLACK;
 final color TURN_OFF_RED = BM_TEXT_GREY;
 final color BOLD_RED = color(224, 56, 45); // functional only: errors
-final color BUTTON_HOVER = BM_GREY;
-final color BUTTON_HOVER_LIGHT = BM_GREY;
-final color BUTTON_PRESSED = BM_TEXT_GREY;
-final color BUTTON_PRESSED_LIGHT = BM_TEXT_GREY;
+final color BUTTON_HOVER = BM_TEXT_GREY;   // hover carries white text: 6.4:1
+final color BUTTON_HOVER_LIGHT = BM_TEXT_GREY;
+final color BUTTON_PRESSED = BLACK;        // pressed/active carries white text: 21:1
+final color BUTTON_PRESSED_LIGHT = BLACK;
 final color BUTTON_LOCKED_GREY = BM_GREY;
 final color BUTTON_PRESSED_DARKGREY = BLACK;
 final color BUTTON_NOOBGREEN = BLACK;
@@ -975,7 +975,8 @@ void systemUpdate() { // for updating data values and variables
 
 void systemDraw() { //for drawing to the screen
     //redraw the screen...not every time, get paced by when data is being plotted
-    background(OPENBCI_DARKBLUE);  //clear the screen
+    background(WHITE);  //BROADMIND: light workspace. Was OPENBCI_DARKBLUE, which
+                        //turned the whole canvas black once the palette went monochrome.
     noStroke();
     //background(255);  //clear the screen
 

@@ -18,6 +18,15 @@
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img alt="BROADMIND GUI control panel" src="docs/screenshots/control-panel.png" width="820">
+</p>
+
+The system control panel: monochrome chrome, the BROADMIND mark centred in the navigation bar, and
+everything else black, white or grey. The workspace is white; the marks and buttons are ink.
+
 ## Welcome!
 
 Thank you for visiting the repository for BROADMIND's build of the OpenBCI GUI.

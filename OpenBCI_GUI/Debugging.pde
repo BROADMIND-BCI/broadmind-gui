@@ -53,7 +53,7 @@ class HelpWidget {
     int padding;
 
     //current text shown in help widget, based on most recent command
-    String currentOutput = "Learn how to use this application and more at docs.openbci.com";
+    String currentOutput = "BROADMIND GUI - broadmind.me";
     OutputLevel curOutputLevel = OutputLevel.INFO;
     private int colorFadeCounter;
     private int colorFadeTimeMillis = 1000;
