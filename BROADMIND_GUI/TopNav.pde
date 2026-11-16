@@ -394,7 +394,7 @@ class TopNav {
         issuesButton = createTNButton("issuesButton", text, _x, _y, _w, _h, font, _fontSize, _bg, _textColor);
         issuesButton.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-               openURLInBrowser("https://github.com/OpenBCI/OpenBCI_GUI/issues");
+               openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/issues");
             }
         });
         issuesButton.setDescription("If you have suggestions or want to share a bug you've found, please create an issue on the GUI's Github repo!");
@@ -467,7 +467,7 @@ class TopNav {
             //println("isCheckingImpedanceOnAnythingEZCHECK==",w_cytonImpedance.isCheckingImpedanceOnAnything);
             if (checkingImpOnChan != null || w_cytonImpedance.cytonMasterImpedanceCheckIsActive() || w_cytonImpedance.isCheckingImpedanceOnAnything) {
                 PopupMessage msg = new PopupMessage("Busy Checking Impedance", "Please turn off impedance check to begin recording the data stream.");
-                println("OpenBCI_GUI::Cyton: Please turn off impedance check to begin recording the data stream.");
+                println("BROADMIND GUI::Cyton: Please turn off impedance check to begin recording the data stream.");
                 return;
             }
         }

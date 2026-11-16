@@ -82,7 +82,7 @@ abstract class DataSourcePlayback implements DataSource, FileBoard  {
             // get class from name
             Class<?> boardClass = Class.forName(underlyingClassName);
             // find default contructor (since this is processing, PApplet is required arg in all constructors)
-            Constructor<?> constructor = boardClass.getConstructor(OpenBCI_GUI.class);
+            Constructor<?> constructor = boardClass.getConstructor(BROADMIND_GUI.class);
             underlyingBoard = (Board)constructor.newInstance(ourApplet);
         } catch (Exception e) {
             outputError("Cannot instantiate underlying board of class " + underlyingClassName);

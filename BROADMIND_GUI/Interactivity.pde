@@ -21,7 +21,7 @@ synchronized void keyPressed() {
 
     //note that the Processing variable "key" is the keypress as an ASCII character
     //note that the Processing variable "keyCode" is the keypress as a JAVA keycode.  This differs from ASCII
-    //println("OpenBCI_GUI: keyPressed: key = " + key + ", int(key) = " + int(key) + ", keyCode = " + keyCode);
+    //println("BROADMIND GUI: keyPressed: key = " + key + ", int(key) = " + int(key) + ", keyCode = " + keyCode);
 
     //Check for Copy/Paste text keyboard shortcuts before anything else.
     if (copyPaste.checkIfPressedAllOS()) {
@@ -117,9 +117,9 @@ void parseKey(char val) {
 
         case 'm':
             String picfname = "OpenBCI-" + directoryManager.getFileNameDateTime() + ".jpg";
-            //println("OpenBCI_GUI: 'm' was pressed...taking screenshot:" + picfname);
+            //println("BROADMIND GUI: 'm' was pressed...taking screenshot:" + picfname);
             saveFrame(directoryManager.getGuiDataPath() + "Screenshots" + System.getProperty("file.separator") + picfname);    // take a shot of that!
-            output("Screenshot captured! Saved to /Documents/OpenBCI_GUI/Screenshots/" + picfname);
+            output("Screenshot captured! Saved to /Documents/BROADMIND GUI/Screenshots/" + picfname);
             return;
         default:
             break;
@@ -252,7 +252,7 @@ synchronized void mousePressed() {
     if (!setupComplete) {
         return;
     }
-    // verbosePrint("OpenBCI_GUI: mousePressed: mouse pressed");
+    // verbosePrint("BROADMIND GUI: mousePressed: mouse pressed");
     // println("systemMode" + systemMode);
 
     //if not before "START SESSION" ... i.e. after initial setup
@@ -275,11 +275,11 @@ synchronized void mousePressed() {
         //close control panel if you click outside...
         if (systemMode == SYSTEMMODE_POSTINIT) {
             if (mouseX > 0 && mouseX < controlPanel.w && mouseY > 0 && mouseY < controlPanel.initBox.y+controlPanel.initBox.h) {
-                println("OpenBCI_GUI: mousePressed: clicked in CP box");
+                println("BROADMIND GUI: mousePressed: clicked in CP box");
             }
             //if clicked out of panel
             else {
-                println("OpenBCI_GUI: mousePressed: outside of CP clicked");
+                println("BROADMIND GUI: mousePressed: outside of CP clicked");
                 controlPanel.close();
                 topNav.controlPanelCollapser.setOff();
             }

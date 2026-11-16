@@ -14,7 +14,7 @@ void asyncLoadAudioFiles() {
     auditoryNfbFilePlayers = new FilePlayer[_numSoundFiles];
     auditoryNfbGains = new ddf.minim.ugens.Gain[_numSoundFiles];
     audioOutput = minim.getLineOut();
-    println("OpenBCI_GUI: AuditoryFeedback: Loading Audio...");
+    println("BROADMIND GUI: AuditoryFeedback: Loading Audio...");
     for (int i = 0; i < _numSoundFiles; i++) {
         //Use large buffer size and cache files in memory
         try {
@@ -27,7 +27,7 @@ void asyncLoadAudioFiles() {
             return;
         }
     }
-    println("OpenBCI_GUI: AuditoryFeedback: Done Loading Audio!");
+    println("BROADMIND GUI: AuditoryFeedback: Done Loading Audio!");
     audioOutputIsAvailable = true;
 }
 

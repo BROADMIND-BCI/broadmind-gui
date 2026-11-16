@@ -30,7 +30,7 @@ Where a weight is missing, the guidelines fall back to Arial rather than to anot
 
 **Geometria is a commercially licensed typeface and is not distributed with this repository.**
 The TTFs are not in git history either. Drop `Geometria-Medium.ttf` and `Geometria-Light.ttf`
-into `OpenBCI_GUI/data/fonts/` if you hold a licence for the build you are shipping; without
+into `BROADMIND_GUI/data/fonts/` if you hold a licence for the build you are shipping; without
 them the sketch uses Arial, which is the documented brand fallback.
 
 ---
@@ -41,7 +41,7 @@ Everything routes through a small number of choke points, so a future brand revi
 
 | What | Where |
 |---|---|
-| Palette | `OpenBCI_GUI/OpenBCI_GUI.pde` — the `BM_GREY` / `BM_TEXT_GREY` block. The legacy `OPENBCI_*` names are re-pointed at brand values so the rest of the sketch compiles untouched. |
+| Palette | `BROADMIND_GUI/BROADMIND_GUI.pde` — the `BM_GREY` / `BM_TEXT_GREY` block. The legacy `OPENBCI_*` names are re-pointed at brand values so the rest of the sketch compiles untouched. |
 | Colour scheme default | `colorScheme = COLOR_SCHEME_DEFAULT` — white nav bar, black ink, grey sub-nav. |
 | Typeface | `bmPFont()` in `OpenBCI_GUI.pde` — resolves Geometria from `data/fonts/` when the licensed files are present, Arial otherwise. Every `f1..f5`, `h1..h5`, `p0..p6` goes through it. |
 | Splash | `introAnimation()` — black surface, white lockup, ratio preserved (2.25:1). |
@@ -133,7 +133,7 @@ the restyle. Fixed here by **removing the bundled JNA jars** (`LSLLink/library/`
 `darwin-aarch64` native. Verify with:
 
 ```bash
-file OpenBCI_GUI/libraries/*/library/jna.jar   # should not exist any more
+file BROADMIND_GUI/libraries/*/library/jna.jar   # should not exist any more
 ```
 
 ### 7.2 Starting any session crashed on Apple Silicon too
@@ -149,8 +149,8 @@ UnsatisfiedLinkError: ... (macho file, but is an incompatible architecture
 Fixed by replacing it with **jSerialComm 2.11.0**, which ships `OSX/aarch64`. Check with:
 
 ```bash
-unzip -l OpenBCI_GUI/libraries/jSerialComm/library/jSerialComm.jar | grep OSX
-unzip -p OpenBCI_GUI/libraries/jSerialComm/library/jSerialComm.jar META-INF/MANIFEST.MF | grep Version
+unzip -l BROADMIND_GUI/libraries/jSerialComm/library/jSerialComm.jar | grep OSX
+unzip -p BROADMIND_GUI/libraries/jSerialComm/library/jSerialComm.jar META-INF/MANIFEST.MF | grep Version
 ```
 
 ### 7.3 Visual defects introduced by the first palette pass, then fixed

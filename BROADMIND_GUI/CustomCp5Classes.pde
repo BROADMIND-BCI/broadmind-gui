@@ -416,7 +416,7 @@ class CopyPaste {
         }
 
         if (tf.isFocus()) {
-            StringBuilder status = new StringBuilder("OpenBCI_GUI: User pasted text from the clipboard into ");
+            StringBuilder status = new StringBuilder("BROADMIND GUI: User pasted text from the clipboard into ");
             status.append(tf.toString());
             println(status);
             StringBuilder sb = new StringBuilder();
@@ -444,7 +444,7 @@ class CopyPaste {
             if (s.length() == 0) {
                 return;
             }
-            StringBuilder status = new StringBuilder("OpenBCI_GUI: User copied text from ");
+            StringBuilder status = new StringBuilder("BROADMIND GUI: User copied text from ");
             status.append(tf.toString());
             status.append(" to the clipboard");
             println(status);

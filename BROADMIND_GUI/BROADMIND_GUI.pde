@@ -534,14 +534,14 @@ void delayedSetup() {
         controlPanel = new ControlPanel(this);
 
         setupComplete = true; // signal that the setup thread has finished
-        println("OpenBCI_GUI::Setup: Setup is complete!");
+        println("BROADMIND GUI::Setup: Setup is complete!");
     }
 
     //Apply GUI-wide settings to front end at the end of setup
     guiSettings.applySettings();
 
     if (!isAdminUser() || isElevationNeeded()) {
-        outputError("OpenBCI_GUI: This application is not being run with Administrator access. This could limit the ability to connect to devices or read/write files.");
+        outputError("BROADMIND GUI: This application is not being run with Administrator access. This could limit the ability to connect to devices or read/write files.");
     }
 }
 
@@ -600,7 +600,7 @@ void initSystem() {
     println("=================================================");
     println("");
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 0 -- ");
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 0 -- ");
 
     //reset init variables
     systemHasHalted = false;
@@ -632,16 +632,16 @@ void initSystem() {
             break;
         case DATASOURCE_SYNTHETIC:
             currentBoard = new BoardBrainFlowSynthetic(nchan);
-            println("OpenBCI_GUI: Init session using Synthetic data source");
+            println("BROADMIND GUI: Init session using Synthetic data source");
             break;
         case DATASOURCE_PLAYBACKFILE:
             if (!playbackData_fname.equals("N/A")) {
                 currentBoard = getDataSourcePlaybackClassFromFile(playbackData_fname);
-                println("OpenBCI_GUI: Init session using Playback data source");
+                println("BROADMIND GUI: Init session using Playback data source");
             } else {
                 if (!sdData_fname.equals("N/A")) {
                     currentBoard = new DataSourceSDCard(sdData_fname);
-                    println("OpenBCI_GUI: Init session using Playback data source");
+                    println("BROADMIND GUI: Init session using Playback data source");
                 }
                 else {
                     // no code path to it
@@ -678,7 +678,7 @@ void initSystem() {
                     controlPanel.streamingBoardBox.getIP(),
                     controlPanel.streamingBoardBox.getPort()
                     );
-            println("OpenBCI_GUI: Init session using Streaming data source");
+            println("BROADMIND GUI: Init session using Streaming data source");
         default:
             break;
     }
@@ -689,12 +689,12 @@ void initSystem() {
     
     //Handle edge cases for Cyton and Cyton+Daisy users immediately after board is initialized. Fixes #954
     if (eegDataSource == DATASOURCE_CYTON) {
-        println("OpenBCI_GUI: Configuring Cyton Channel Count...");
+        println("BROADMIND GUI: Configuring Cyton Channel Count...");
         if (currentBoard instanceof BoardCytonSerial) {
             Pair<Boolean, String> res = ((BoardBrainFlow)currentBoard).sendCommand("c");
             //println(res.getKey().booleanValue(), res.getValue());guiSettings
             if (res.getValue().startsWith("daisy removed")) {
-                println("OpenBCI_GUI: Daisy is physically attached, using Cyton 8 Channels instead.");
+                println("BROADMIND GUI: Daisy is physically attached, using Cyton 8 Channels instead.");
             }
         } else if (currentBoard instanceof BoardCytonSerialDaisy) {
             Pair<Boolean, String> res = ((BoardBrainFlow)currentBoard).sendCommand("C");
@@ -710,7 +710,7 @@ void initSystem() {
         //Show a popup to inform first-time Cyton users about the FTDI buffer fix and Cyton Smoothing feature. Fixes #1026
         //Windows Users: Latest BrainFlow will automatically fix this in the background on Session Start! Fixed in #1039
         if (guiSettings.getShowCytonSmoothingPopup()) {
-            println("OpenBCI_GUI: Showing Cyton FTDI Buffer Fix Popup");
+            println("BROADMIND GUI: Showing Cyton FTDI Buffer Fix Popup");
             String popupTitle = "Cyton FTDI Buffer Fix Info";
             String popupString = "The default settings for the Cyton Dongle driver can make data appear \"choppy.\" Visit the OpenBCI Docs to learn how to fix this. For now, the GUI will \"smooth\" the data for you.";
             String popupButtonText = "View Fix";
@@ -730,20 +730,20 @@ void initSystem() {
 
     dataLogger.initialize();
 
-    verbosePrint("OpenBCI_GUI: initSystem: Initializing core data objects");
+    verbosePrint("BROADMIND GUI: initSystem: Initializing core data objects");
     initCoreDataObjects();
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 1 -- " + millis());
-    verbosePrint("OpenBCI_GUI: initSystem: Initializing FFT data objects");
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 1 -- " + millis());
+    verbosePrint("BROADMIND GUI: initSystem: Initializing FFT data objects");
     initFFTObjectsAndBuffer();
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 2 -- " + millis());
-    verbosePrint("OpenBCI_GUI: initSystem: Closing ControlPanel...");
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 2 -- " + millis());
+    verbosePrint("BROADMIND GUI: initSystem: Closing ControlPanel...");
 
     controlPanel.close();
     topNav.controlPanelCollapser.setOff();
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 3 -- " + millis());
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 3 -- " + millis());
 
     if (abandonInit) {
         haltSystem();
@@ -758,7 +758,7 @@ void initSystem() {
         systemMode = SYSTEMMODE_POSTINIT; //tell system it's ok to leave control panel and start interfacing GUI
     }
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 4 -- " + millis());
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 4 -- " + millis());
 
      //don't save default session settings StreamingBoard
     if (eegDataSource != DATASOURCE_STREAMING) {
@@ -773,7 +773,7 @@ void initSystem() {
     //Instantiate Global Filter Settings Class
     filterSettings = new FilterSettings(((DataSource)currentBoard));
 
-    verbosePrint("OpenBCI_GUI: initSystem: -- Init 5 -- " + millis());
+    verbosePrint("BROADMIND GUI: initSystem: -- Init 5 -- " + millis());
 
     midInit = false;
 } //end initSystem
@@ -1020,9 +1020,9 @@ void requestReinit() {
 //Always Called after systemDraw()
 void systemInitSession() {
     if (midInitCheck2) {
-        println("OpenBCI_GUI: Start session. Calling initSystem().");
+        println("BROADMIND GUI: Start session. Calling initSystem().");
         try {
-            initSystem(); //found in OpenBCI_GUI.pde
+            initSystem(); //found in BROADMIND_GUI.pde
         } catch (Exception e) {
             e.printStackTrace();
             haltSystem();
@@ -1051,7 +1051,7 @@ void updateToNChan(int _nchan) {
         }
     }
 
-    println("OpenBCI_GUI: Channel count set to " + str(nchan));
+    println("BROADMIND GUI: Channel count set to " + str(nchan));
 }
 
 void introAnimation() {

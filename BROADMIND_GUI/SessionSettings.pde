@@ -17,7 +17,7 @@
 //        - during system initialization between checkpoints 4 and 5
 //        - in Interactivty.pde with the rest of the keyboard shortcuts
 //        - in TopNav.pde when "Config" --> "Save Settings" || "Load Settings" is clicked
-//    -- This allows User to store snapshots of most GUI settings in Users/.../Documents/OpenBCI_GUI/Settings/
+//    -- This allows User to store snapshots of most GUI settings in Users/.../Documents/BROADMIND GUI/Settings/
 //    -- After loading, only a few actions are required: start/stop the data stream and networking streams, open/close serial port
 //
 //      Tips on adding a new setting:
@@ -239,7 +239,7 @@ class SessionSettings {
     final int initTimeoutThreshold = 12000; //Timeout threshold in milliseconds
 
     SessionSettings() {
-        //Instantiated on app start in OpenBCI_GUI.pde
+        //Instantiated on app start in BROADMIND_GUI.pde
         dropdownColors.setActive((int)BUTTON_PRESSED); //bg color of box when pressed
         dropdownColors.setForeground((int)BUTTON_HOVER); //when hovering over any box (primary or dropdown)
         dropdownColors.setBackground((int)color(255)); //bg color of boxes (including primary)
@@ -293,7 +293,7 @@ class SessionSettings {
     ////////////////////////////////////////////////////////////////
     //               Init GUI Software Settings                   //
     //                                                            //
-    //  - Called during system initialization in OpenBCI_GUI.pde  //
+    //  - Called during system initialization in BROADMIND_GUI.pde  //
     ////////////////////////////////////////////////////////////////
     void init() {
         String defaultSettingsFileToSave = getPath("Default", eegDataSource, nchan);

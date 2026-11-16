@@ -19,8 +19,8 @@ bad()  { printf '  \033[31mFAIL\033[0m  %s\n' "$1"; FAIL=$((FAIL+1)); }
 skip() { printf '  \033[33mSKIP\033[0m  %s\n' "$1"; SKIP=$((SKIP+1)); }
 section() { printf '\n\033[1m%s\033[0m\n' "$1"; }
 
-[ -f OpenBCI_GUI/OpenBCI_GUI.pde ] || { echo "run this from the repository root"; exit 2; }
-SKETCH="$PWD/OpenBCI_GUI"
+[ -f BROADMIND_GUI/BROADMIND_GUI.pde ] || { echo "run this from the repository root"; exit 2; }
+SKETCH="$PWD/BROADMIND_GUI"
 
 # ---------------------------------------------------------------- 1. licensing
 section "1. Licensing"
@@ -37,8 +37,8 @@ fi
 
 # ---------------------------------------------------------------- 2. version
 section "2. Version consistency"
-VER=$(grep -oE 'localGUIVersionString *= *"v?[0-9]+\.[0-9]+\.[0-9]+[^"]*"' OpenBCI_GUI/OpenBCI_GUI.pde | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-DATE=$(grep -oE 'localGUIVersionDate *= *"[^"]+"' OpenBCI_GUI/OpenBCI_GUI.pde | sed 's/.*"\(.*\)"/\1/')
+VER=$(grep -oE 'localGUIVersionString *= *"v?[0-9]+\.[0-9]+\.[0-9]+[^"]*"' BROADMIND_GUI/BROADMIND_GUI.pde | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+DATE=$(grep -oE 'localGUIVersionDate *= *"[^"]+"' BROADMIND_GUI/BROADMIND_GUI.pde | sed 's/.*"\(.*\)"/\1/')
 if [ -z "${VER:-}" ]; then
   bad "could not read localGUIVersionString"
 else
@@ -58,12 +58,12 @@ fi
 
 # ---------------------------------------------------------------- 3. native libraries
 section "3. Native libraries (Apple Silicon)"
-if [ -n "$(find OpenBCI_GUI/libraries -name 'jna*.jar' -print -quit 2>/dev/null)" ]; then
+if [ -n "$(find BROADMIND_GUI/libraries -name 'jna*.jar' -print -quit 2>/dev/null)" ]; then
   bad "a bundled jna*.jar is present - it ships an x86_64-only native and kills startup on arm64"
 else
   ok "no bundled JNA (Processing's arm64 JNA is used)"
 fi
-JSC=$(find OpenBCI_GUI/libraries -name 'jSerialComm*.jar' -print -quit 2>/dev/null)
+JSC=$(find BROADMIND_GUI/libraries -name 'jSerialComm*.jar' -print -quit 2>/dev/null)
 if [ -z "${JSC:-}" ]; then
   bad "jSerialComm jar not found"
 elif unzip -l "$JSC" 2>/dev/null | grep -q 'OSX/aarch64'; then
@@ -74,18 +74,18 @@ fi
 
 # ---------------------------------------------------------------- 4. brand
 section "4. Brand palette"
-if grep -q 'BM_GREY\|BM_TEXT_GREY' OpenBCI_GUI/OpenBCI_GUI.pde; then
+if grep -q 'BM_GREY\|BM_TEXT_GREY' BROADMIND_GUI/BROADMIND_GUI.pde; then
   ok "brand ramp is defined"
 else
   bad "brand ramp (BM_GREY / BM_TEXT_GREY) is missing"
 fi
-if grep -rnE 'color\(31, *69, *110|color\(1, *18, *41|color\(57, *128, *204' --include='*.pde' OpenBCI_GUI | grep -v '//' | grep -q .; then
+if grep -rnE 'color\(31, *69, *110|color\(1, *18, *41|color\(57, *128, *204' --include=*.pde. BROADMIND_GUI | grep -v '//' | grep -q .; then
   bad "an OpenBCI-blue literal survives outside a comment"
 else
   ok "no legacy OpenBCI blue literals"
 fi
-if grep -q 'localGUIVersionString' OpenBCI_GUI/OpenBCI_GUI.pde && \
-   grep -q 'BROADMIND build' OpenBCI_GUI/TopNav.pde; then
+if grep -q 'localGUIVersionString' BROADMIND_GUI/BROADMIND_GUI.pde && \
+   grep -q 'BROADMIND build' BROADMIND_GUI/TopNav.pde; then
   ok "upstream update check is disabled (fork version line)"
 else
   bad "upstream update check may be live - it reports a false 'Update Available' for a 0.x fork"
@@ -93,7 +93,7 @@ fi
 
 # ---------------------------------------------------------------- 5. hygiene
 section "5. Repository hygiene"
-if grep -rq 'ZZCapture' --include='*.pde' OpenBCI_GUI; then
+if grep -rq 'ZZCapture' --include='*.pde' BROADMIND_GUI; then
   bad "a temporary capture hook is still in the sketch"
 else
   ok "no temporary capture hooks"
@@ -151,7 +151,7 @@ else
   # Snapshot before killing: terminating the JVM produces its own ThreadDeath fatal-error
   # dump, which must not be mistaken for an application exception.
   cp "$RUNLOG" "$RUNLOG.pre" 2>/dev/null
-  kill "$RUNPID" 2>/dev/null; pkill -f 'OpenBCI_GUI' 2>/dev/null; sleep 2
+  kill "$RUNPID" 2>/dev/null; pkill -f "BROADMIND_GUI" 2>/dev/null; sleep 2
 
   SCAN="${RUNLOG}.pre"
   [ -s "$SCAN" ] || SCAN="$RUNLOG"

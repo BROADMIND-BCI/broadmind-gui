@@ -149,10 +149,10 @@ This build runs on **Processing 4.5.x**. Open the sketch and press Run:
 ```bash
 git clone https://github.com/BROADMIND-BCI/broadmind-gui.git
 cd broadmind-gui
-open -a Processing OpenBCI_GUI
+open -a Processing BROADMIND_GUI
 ```
 
-The libraries the sketch needs ship inside `OpenBCI_GUI/libraries`, so Processing finds them without
+The libraries the sketch needs ship inside `BROADMIND_GUI/libraries`, so Processing finds them without
 anything being installed into your sketchbook. If you would rather follow the upstream guide, it is
 [here](https://docs.openbci.com/Software/OpenBCISoftware/GUIDocs/#running-the-openbci-gui-from-the-processing-ide).
 

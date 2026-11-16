@@ -238,7 +238,7 @@ class InterfaceSerial {
             } else {
                 println("RunttimeException: " + e);
                 output("Error connecting to selected Serial/COM port. Make sure your board is powered up and your dongle is plugged in.");
-                //abandonInit = true; //global variable in OpenBCI_GUI.pde
+                //abandonInit = true; //global variable in BROADMIND_GUI.pde
             }
             return 0;
         }

@@ -21,6 +21,13 @@ First BROADMIND-branded release of this fork, based on upstream OpenBCI GUI `d85
   which is also why a session appeared to start with no data.
 
 ### Changed
+- The application identifies as **BROADMIND GUI** everywhere it can: the sketch and its bundle are
+  `BROADMIND_GUI`, which is what macOS shows in the Dock and in crash reports, and every console/log
+  prefix now reads `BROADMIND GUI::`. The Issues button opens this repository's tracker.
+- Recordings, settings and screenshots now live under `Documents/BROADMIND GUI` rather than
+  `Documents/OpenBCI_GUI`. Existing data in the old folder is not migrated.
+- Kept deliberately: the `"OpenBCI_GUI$"` delimiter inside recording files (it is the file format),
+  upstream sample-data filenames, and every OpenBCI URL and source-header credit.
 - Version line is this fork's own: `v0.2.0-beta.1`, dated November 2026. The upstream GitHub
   update check is disabled, because comparing against OpenBCI's release number always reported a
   spurious "Update Available".
@@ -916,7 +923,7 @@ Required a lot of work on the hub. But none the less, this seems to be working d
 
 ## Beta 1
 
-The first beta to be released. There are some [minor issues](https://github.com/OpenBCI/OpenBCI_GUI/issues), but if any are encountered, please [open an issue](https://github.com/OpenBCI/OpenBCI_GUI/issues/new) on the [github page](https://github.com/OpenBCI/OpenBCI_GUI/issues).
+The first beta to be released. There are some [minor issues](https://github.com/OpenBCI/BROADMIND_GUI/issues), but if any are encountered, please [open an issue](https://github.com/OpenBCI/BROADMIND_GUI/issues/new) on the [github page](https://github.com/OpenBCI/BROADMIND_GUI/issues).
 
 # 2.2.1
 

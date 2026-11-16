@@ -95,7 +95,7 @@ class W_playback extends Widget {
 
         File f = new File(userPlaybackHistoryFile);
         if (!f.exists()) {
-            println("OpenBCI_GUI::RefreshPlaybackList: Playback history file not found.");
+            println("BROADMIND GUI::RefreshPlaybackList: Playback history file not found.");
             return;
         }
 
@@ -263,7 +263,7 @@ boolean playbackFileSelected (String longName, String shortName) {
 
     File f = new File(userPlaybackHistoryFile);
     if (!f.exists()) {
-        println("OpenBCI_GUI::playbackFileSelected: Playback history file not found.");
+        println("BROADMIND GUI::playbackFileSelected: Playback history file not found.");
         playbackHistoryFileExists = false;
     } else {
         try {

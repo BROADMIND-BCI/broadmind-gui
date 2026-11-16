@@ -77,7 +77,7 @@ class DataLogger {
         //Print BrainFlow Streamer Info here after ODF and BDF println
         if (eegDataSource != DATASOURCE_PLAYBACKFILE && eegDataSource != DATASOURCE_STREAMING) {
             controlPanel.setBrainFlowStreamerOutput();
-            StringBuilder sb = new StringBuilder("OpenBCI_GUI: BrainFlow Streamer Location: ");
+            StringBuilder sb = new StringBuilder("BROADMIND GUI: BrainFlow Streamer Location: ");
             sb.append(brainflowStreamer);
             println(sb.toString());
         }
@@ -124,14 +124,14 @@ class DataLogger {
     */
     private void openNewLogFileBDF(String _fileName) {
         if (fileWriterBDF != null) {
-            println("OpenBCI_GUI: closing log file");
+            println("BROADMIND GUI: closing log file");
             closeLogFile();
         }
         //open the new file
         fileWriterBDF = new DataWriterBDF(_fileName);
 
         output_fname = fileWriterBDF.fname;
-        println("OpenBCI_GUI: openNewLogFile: opened BDF output file: " + output_fname); //Print filename of new BDF file to console
+        println("BROADMIND GUI: openNewLogFile: opened BDF output file: " + output_fname); //Print filename of new BDF file to console
     }
 
     /**
@@ -141,7 +141,7 @@ class DataLogger {
     */
     private void openNewLogFileODF(String _fileName) {
         if (fileWriterODF != null) {
-            println("OpenBCI_GUI: closing log file");
+            println("BROADMIND GUI: closing log file");
             closeLogFile();
         }
         //open the new file
@@ -153,7 +153,7 @@ class DataLogger {
         }
 
         output_fname = fileWriterODF.fname;
-        println("OpenBCI_GUI: openNewLogFile: opened ODF output file: " + output_fname); //Print filename of new ODF file to console
+        println("BROADMIND GUI: openNewLogFile: opened ODF output file: " + output_fname); //Print filename of new ODF file to console
     }
 
     private void closeLogFile() {
