@@ -188,7 +188,7 @@ class FilterUIPopup extends PApplet implements Runnable {
             // Fade out the color alpha value from 190 to 0 over time (ex. 1 second)
             int timeDelta = millis() - masterFilterSettingWasModifiedFadeCounter;
             int alphaFadeValue = (int)map(timeDelta, 0, filterSettingWasModifiedFadeTime, 190, 0);
-            fill(color(57, 128, 204, alphaFadeValue)); //light blue from TopNav
+            fill(color(0, 0, 0, alphaFadeValue)); //BROADMIND ink scrim
             noStroke();
             rect(columnObjX[0] - LG_SPACER, (int)masterOnOffButton.getPosition()[1] - (int)SM_SPACER/2, widthOfAllChannelColumns, uiObjectHeight + SM_SPACER);
             if (timeDelta > filterSettingWasModifiedFadeTime) {
@@ -201,7 +201,7 @@ class FilterUIPopup extends PApplet implements Runnable {
                 int timeDelta = millis() - filterSettingsWereModifiedFadeCounter[i];
                 // Fade the color alpha value from 190 to 0
                 int alphaFadeValue = (int)map(timeDelta, 0, filterSettingWasModifiedFadeTime, 190, 0);
-                fill(color(57, 128, 204, alphaFadeValue)); //light blue from TopNav
+                fill(color(0, 0, 0, alphaFadeValue)); //BROADMIND ink scrim
                 noStroke();
                 rect(columnObjX[0] - LG_SPACER, (int)onOffButtons[i].getPosition()[1] - (int)SM_SPACER/2, widthOfAllChannelColumns, uiObjectHeight + SM_SPACER);
                 if (timeDelta > filterSettingWasModifiedFadeTime) {

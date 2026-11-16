@@ -33,8 +33,8 @@ class ADS1299SettingsController {
     private ScrollableList[] srb2Lists;
     private ScrollableList[] srb1Lists;
     private boolean[] hasUnappliedChanges;
-    private final color yesOnColor = #DFF2BF;
-    private final color noOffColor = #FFD2D2;
+    private final color yesOnColor = BM_GREY;   //BROADMIND: neutral 'applied' chip
+    private final color noOffColor = BOLD_RED;  //BROADMIND: functional warning chip
 
     private Textfield customCommandTF;
     private Button sendCustomCmdButton;
@@ -131,7 +131,7 @@ class ADS1299SettingsController {
 
                 if (hasUnappliedChanges[i]) {
                     pushStyle();
-                    fill(color(57, 128, 204, 190)); //light blue from TopNav
+                    fill(color(0, 0, 0, 190)); //BROADMIND ink scrim
                     //fill(color(245, 64, 64, 180)); //light red
                     rect(x, y + chanBar_h * i, w, chanBar_h);
                     popStyle();

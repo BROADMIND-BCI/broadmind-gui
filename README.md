@@ -1,3 +1,17 @@
+# The OpenBCI GUI — BROADMIND fork
+
+> **This is a branded fork of OpenBCI's GUI.** The application is upstream
+> `OpenBCI/OpenBCI_GUI` (MIT); nothing in the acquisition, protocol or board-support code was
+> changed. What changed is the visual language: the GUI now uses the BROADMIND 2026-27 brand
+> system — black, white and one grey, set in Geometria where it is licensed and installed,
+> Arial otherwise — with functional colours (channel identity, error states) deliberately preserved.
+>
+> See **[BRANDING.md](BRANDING.md)** for the palette, the type scale, exactly where each rule is
+> enforced in the source, the deviations and their justification, and what is still unstyled.
+> Licence and every upstream author credit are unchanged — see [LICENSE](LICENSE).
+
+---
+
 # The OpenBCI GUI
 
 <p align="center">

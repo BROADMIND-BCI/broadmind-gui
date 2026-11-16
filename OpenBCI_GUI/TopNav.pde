@@ -146,8 +146,8 @@ class TopNav {
             subNavBg = SUBNAV_LIGHTBLUE;
             logo = logo_white;
         } else {
-            topNavBg = color(255);
-            subNavBg = color(229);
+            topNavBg = WHITE;
+            subNavBg = BM_GREY;
             logo = logo_black;
         }
 
@@ -163,8 +163,11 @@ class TopNav {
 
         //hide the center logo if buttons would overlap it
         if (width > 860) {
-            //this is the center logo
-            image(logo, width/2 - (128/2) - 2, 1, 128, 29);
+            //BROADMIND mark, centred. Height is bounded by the bar; width follows
+            //the mark's own ratio so it is never stretched.
+            float logoH = navBarHeight - 10;
+            float logoW = logoH * ((float) logo.width / (float) logo.height);
+            image(logo, width/2 - (logoW/2), (navBarHeight - logoH)/2f, logoW, logoH);
         }
 
         //Draw these buttons during a Session
@@ -582,11 +585,11 @@ class LayoutSelector {
 
             stroke(OPENBCI_DARKBLUE);
             // fill(229); //bg
-            fill(57, 128, 204); //bg
+            fill(BLACK); //BROADMIND ink
             rect(x, y, w, h);
 
-            fill(57, 128, 204);
-            // fill(177, 184, 193);
+            fill(BLACK); //BROADMIND ink
+            // fill(BM_GREY);
             noStroke();
             rect(x+w-(topNav.layoutButton.getWidth()-1), y, (topNav.layoutButton.getWidth()-1), 1);
 
@@ -732,7 +735,7 @@ class ConfigSelector {
             pushStyle();
 
             stroke(OPENBCI_DARKBLUE);
-            fill(57, 128, 204); //bg
+            fill(BLACK); //BROADMIND ink
             rect(x, y, w, h);
 
             boolean isSessionStarted = (systemMode == SYSTEMMODE_POSTINIT);
@@ -749,7 +752,7 @@ class ConfigSelector {
             clearAllSettingsYes.setVisible(clearAllSettingsPressed);
             clearAllSettingsNo.setVisible(clearAllSettingsPressed);
 
-            fill(57, 128, 204);
+            fill(BLACK); //BROADMIND ink
             noStroke();
             //This makes the dropdown box look like it's apart of the button by drawing over the part that overlaps
             rect(x+w-(topNav.settingsButton.getWidth()-1), y, (topNav.settingsButton.getWidth()-1), 1);

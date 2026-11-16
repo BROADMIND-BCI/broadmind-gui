@@ -548,7 +548,7 @@ class ChannelSelect {
             .setColorLabel(OPENBCI_DARKBLUE)
             .setColorForeground(color(120))
             .setColorBackground(color(150))
-            .setColorActive(color(57, 128, 204))
+            .setColorActive(BLACK) //BROADMIND ink
             .setVisible(_isVisible)
             ;
         myButton

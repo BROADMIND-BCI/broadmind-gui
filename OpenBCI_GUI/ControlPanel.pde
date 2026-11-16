@@ -711,11 +711,11 @@ class BLEBox {
 
         if (bleIsRefreshing) {
             //Display spinning cog gif
-            image(loadingGIF_blue, w + 225,  refreshBLE.getPosition()[1] + 4, 20, 20);
+            image(loadingGIF_ink, w + 225,  refreshBLE.getPosition()[1] + 4, 20, 20);
         } else {
             //Draw small grey circle
             pushStyle();
-            fill(#999999);
+            fill(BM_TEXT_GREY); //BROADMIND text grey
             ellipseMode(CENTER);
             ellipse(w + 225 + 10, refreshBLE.getPosition()[1] + 12, 12, 12);
             popStyle();
@@ -928,11 +928,11 @@ class WifiBox {
 
             if (wifiIsRefreshing){
                 //Display spinning cog gif
-                image(loadingGIF_blue, x + 225,  refreshWifi_y + 4, 20, 20);
+                image(loadingGIF_ink, x + 225,  refreshWifi_y + 4, 20, 20);
             } else {
                 //Draw small grey circle
                 pushStyle();
-                fill(#999999);
+                fill(BM_TEXT_GREY); //BROADMIND text grey
                 ellipseMode(CENTER);
                 ellipse(x + 225 + 10, refreshWifi_y + 12, 12, 12);
                 popStyle();

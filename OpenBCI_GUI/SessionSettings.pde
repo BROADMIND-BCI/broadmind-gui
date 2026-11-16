@@ -243,8 +243,8 @@ class SessionSettings {
         dropdownColors.setActive((int)BUTTON_PRESSED); //bg color of box when pressed
         dropdownColors.setForeground((int)BUTTON_HOVER); //when hovering over any box (primary or dropdown)
         dropdownColors.setBackground((int)color(255)); //bg color of boxes (including primary)
-        dropdownColors.setCaptionLabel((int)color(1, 18, 41)); //color of text in primary box
-        // dropdownColors.setValueLabel((int)color(1, 18, 41)); //color of text in all dropdown boxes
+        dropdownColors.setCaptionLabel((int)color(0)); //BROADMIND ink
+        // dropdownColors.setValueLabel((int)color(0)); //BROADMIND ink
         dropdownColors.setValueLabel((int)color(100)); //color of text in all dropdown boxes
 
         setLogFileDurationChoice(defaultOBCIMaxFileSize);

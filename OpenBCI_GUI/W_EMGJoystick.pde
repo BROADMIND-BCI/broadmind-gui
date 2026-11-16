@@ -193,7 +193,7 @@ class W_EMGJoystick extends Widget {
 
         //Draw indicator
         noFill();
-        stroke(color(31,69,110));
+        stroke(BLACK); //BROADMIND ink
         strokeWeight(2);
         circle(xMapped, yMapped, INDICATOR_DIAMETER);
         line(xMapped-10, yMapped, xMapped+10, yMapped);

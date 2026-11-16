@@ -188,7 +188,7 @@ int win_h; //window height
 
 PImage cog;
 Gif loadingGIF;
-Gif loadingGIF_blue;
+Gif loadingGIF_ink;
 
 PImage logo_black;
 PImage logo_blue;
@@ -223,35 +223,58 @@ boolean setupComplete = false;
 //Starting to collect the GUI-wide color pallet here. Rename constants all caps later...
 final color WHITE = color(255);
 final color BLACK = color(0);
-final color OPENBCI_DARKBLUE = color(1, 18, 41);
-final color OPENBCI_BLUE = color(31, 69, 110);
-final color OPENBCI_BLUE_ALPHA50 = color(31, 69, 110, 50);
-final color OPENBCI_BLUE_ALPHA100 = color(31, 69, 110, 100);
-final color boxColor = color(200);
-final color boxStrokeColor = OPENBCI_DARKBLUE;
-final color isSelected_color = color(184, 220, 105); //Used for textfield borders,
+
+///////////////////////////////////////////////////////////////////////////////
+// BROADMIND brand palette.
+//
+// The 2026-27 brand guidelines allow exactly three colours plus one text grey:
+//   black  #000000   white  #FFFFFF   grey  #D5D5D5   text grey  #595959
+// White-on-grey (1.5:1) and grey-on-white (1.5:1) are forbidden for text.
+//
+// All application chrome below is mapped onto that ramp: ink is black,
+// separators and inactive surfaces are the brand grey, secondary text is the
+// text grey. The OpenBCI palette names are kept so the rest of the sketch
+// keeps compiling unchanged.
+//
+// Deliberate deviations, both functional rather than decorative:
+//   * BOLD_RED stays a real red for error and critical states, because a
+//     monochrome error state is indistinguishable from a normal one.
+//   * channelColors, ACCEL_*_COLOR and SIGNAL_CHECK_* keep their hues: they
+//     encode data, not brand. A monochrome plot loses the channel identity
+//     which is the whole point of the graph.
+///////////////////////////////////////////////////////////////////////////////
+final color BM_GREY = color(213);        // #D5D5D5
+final color BM_TEXT_GREY = color(89);    // #595959
+
+final color OPENBCI_DARKBLUE = BLACK;
+final color OPENBCI_BLUE = BLACK;
+final color OPENBCI_BLUE_ALPHA50 = color(0, 0, 0, 50);
+final color OPENBCI_BLUE_ALPHA100 = color(0, 0, 0, 100);
+final color boxColor = BM_GREY;
+final color boxStrokeColor = BLACK;
+final color isSelected_color = BLACK; //Used for textfield borders
 final color colorNotPressed = WHITE;
-final color buttonsLightBlue = color(57,128,204);
-final color GREY_235 = color(235);
-final color GREY_200 = color(200);
-final color GREY_125 = color(125);
-final color GREY_100 = color(100);
-final color GREY_20 = color(20);
-final color TURN_ON_GREEN = color(195, 242, 181);
-final color TURN_OFF_RED = color(255, 210, 210);
-final color BOLD_RED = color(224, 56, 45);
-final color BUTTON_HOVER = color(177, 184, 193);//color(252, 221, 198);
-final color BUTTON_HOVER_LIGHT = color(211, 222, 232);
-final color BUTTON_PRESSED = color(150, 170, 200); //OPENBCI_DARKBLUE;
-final color BUTTON_PRESSED_LIGHT = color(179, 187, 199);
-final color BUTTON_LOCKED_GREY = color(128);
-final color BUTTON_PRESSED_DARKGREY = color(50);
-final color BUTTON_NOOBGREEN = color(114,204,171);
-final color BUTTON_EXPERTPURPLE = color(135,95,154);
-final color BUTTON_CAUTIONRED = color(214,100,100);
-final color OBJECT_BORDER_GREY = color(150);
-final color TOPNAV_DARKBLUE = OPENBCI_BLUE;
-final color SUBNAV_LIGHTBLUE = buttonsLightBlue;
+final color buttonsLightBlue = BLACK;
+final color GREY_235 = WHITE;
+final color GREY_200 = BM_GREY;
+final color GREY_125 = BM_TEXT_GREY;
+final color GREY_100 = BM_TEXT_GREY;
+final color GREY_20 = BLACK;
+final color TURN_ON_GREEN = BLACK;
+final color TURN_OFF_RED = BM_TEXT_GREY;
+final color BOLD_RED = color(224, 56, 45); // functional only: errors
+final color BUTTON_HOVER = BM_GREY;
+final color BUTTON_HOVER_LIGHT = BM_GREY;
+final color BUTTON_PRESSED = BM_TEXT_GREY;
+final color BUTTON_PRESSED_LIGHT = BM_TEXT_GREY;
+final color BUTTON_LOCKED_GREY = BM_GREY;
+final color BUTTON_PRESSED_DARKGREY = BLACK;
+final color BUTTON_NOOBGREEN = BLACK;
+final color BUTTON_EXPERTPURPLE = BLACK;
+final color BUTTON_CAUTIONRED = BOLD_RED;
+final color OBJECT_BORDER_GREY = BM_GREY;
+final color TOPNAV_DARKBLUE = BLACK;
+final color SUBNAV_LIGHTBLUE = BM_GREY;
 //Use the same colors for X,Y,Z throughout Accelerometer widget
 final color ACCEL_X_COLOR = BOLD_RED;
 final color ACCEL_Y_COLOR = color(49, 113, 89);
@@ -266,7 +289,7 @@ final color SIGNAL_CHECK_RED_LOWALPHA = color(224, 56, 45, 150);
 final int COLOR_SCHEME_DEFAULT = 1;
 final int COLOR_SCHEME_ALTERNATIVE_A = 2;
 // int COLOR_SCHEME_ALTERNATIVE_B = 3;
-int colorScheme = COLOR_SCHEME_ALTERNATIVE_A;
+int colorScheme = COLOR_SCHEME_DEFAULT; //BROADMIND: light chrome, black ink
 
 WidgetManager wm;
 boolean wmVisible = true;
@@ -343,39 +366,57 @@ void settings() {
     globalScreenDPI.append(displayDensity() == 2);
 }
 
+//BROADMIND typeface resolver.
+//
+//The brand typeface is Geometria (Medium for headings and labels, Light for
+//body). It is a commercially licensed family and is deliberately NOT
+//distributed with this repository: dropping the TTFs into data/fonts/ is a
+//licensing question for whoever ships the build, not something a public fork
+//should decide. If the files are present they are used; otherwise the sketch
+//falls back to Arial, which is what the brand guidelines specify whenever
+//Geometria cannot be installed.
+PFont bmPFont(boolean medium, int size) {
+    String rel = medium ? "fonts/Geometria-Medium.ttf" : "fonts/Geometria-Light.ttf";
+    if (dataFile(rel).exists()) {
+        return createFont(rel, size);
+    }
+    return createFont("Arial", size, true);
+}
+
 void setup() {
     frameRate(120);
 
     copyPaste = new CopyPaste();
 
-    //V1 FONTS
-    f1 = createFont("fonts/Raleway-SemiBold.otf", 16);
+    //V1 FONTS -- BROADMIND typeface, resolved by bmPFont(): Geometria when the
+    //licensed files are present in data/fonts/, Arial otherwise.
+    f1 = bmPFont(true, 16);
     //Account for Macs with Retina Display and textfield text being too large
     int f2FontSize = isMac() && (displayDensity() > 1) ? 8 : 15;
-    f2 = createFont("fonts/Raleway-Regular.otf", f2FontSize);
-    f3 = createFont("fonts/Raleway-SemiBold.otf", 15);
-    f4 = createFont("fonts/Raleway-SemiBold.otf", 64);  // clear bigger fonts for widgets
+    f2 = bmPFont(false, f2FontSize);
+    f3 = bmPFont(true, 15);
+    f4 = bmPFont(true, 64);  // clear bigger fonts for widgets
     //Account for Macs with Retina Display and textfield text being too large
     int f5FontSize = isMac() && (displayDensity() > 1) ? 6 : 12;
-    f5 = createFont("fonts/Raleway-Regular.otf", f5FontSize);
+    f5 = bmPFont(false, f5FontSize);
 
-    h1 = createFont("fonts/Montserrat-Regular.otf", 20);
-    h2 = createFont("fonts/Montserrat-Regular.otf", 18);
-    h3 = createFont("fonts/Montserrat-Regular.otf", 16);
-    h4 = createFont("fonts/Montserrat-Regular.otf", 14);
-    h5 = createFont("fonts/Montserrat-Regular.otf", 12);
+    h1 = bmPFont(true, 20);
+    h2 = bmPFont(true, 18);
+    h3 = bmPFont(true, 16);
+    h4 = bmPFont(true, 14);
+    h5 = bmPFont(true, 12);
 
-    p0 = createFont("fonts/OpenSans-Semibold.ttf", 24);
-    p1 = createFont("fonts/OpenSans-Regular.ttf", 20);
-    p2 = createFont("fonts/OpenSans-Regular.ttf", 18);
-    p3 = createFont("fonts/OpenSans-Regular.ttf", 16);
-    p15 = createFont("fonts/OpenSans-Regular.ttf", 15);
-    p4 = createFont("fonts/OpenSans-Regular.ttf", 14);
-    p13 = createFont("fonts/OpenSans-Regular.ttf", 13);
-    p5 = createFont("fonts/OpenSans-Regular.ttf", 12);
-    p6 = createFont("fonts/OpenSans-Regular.ttf", 10);
+    p0 = bmPFont(true, 24);
+    p1 = bmPFont(false, 20);
+    p2 = bmPFont(false, 18);
+    p3 = bmPFont(false, 16);
+    p15 = bmPFont(false, 15);
+    p4 = bmPFont(false, 14);
+    p13 = bmPFont(false, 13);
+    p5 = bmPFont(false, 12);
+    p6 = bmPFont(false, 10);
 
-    cog = loadImage("obci-logo-blu-cog.png");
+    cog = loadImage("broadmind-lockup-white.png"); //splash lockup on black
 
     // check if the current directory is writable
     File dummy = new File(sketchPath());
@@ -467,15 +508,15 @@ void delayedSetup() {
     println(brainflowVersion);
 
 
-    logo_black = loadImage("obci-logo-blk.png");
-    logo_blue = loadImage("obci-logo-blu.png");
-    logo_white = loadImage("obci-logo-wht.png");
+    logo_black = loadImage("broadmind-mark-black.png");
+    logo_blue = loadImage("broadmind-mark-black.png");
+    logo_white = loadImage("broadmind-mark-white.png");
     consoleImgBlue = loadImage("console-45x45-dots_blue.png");
     consoleImgWhite = loadImage("console-45x45-dots_white.png");
     loadingGIF = new Gif(this, "ajax_loader_gray_512.gif");
     loadingGIF.loop();
-    loadingGIF_blue = new Gif(this, "obci_cog_anim-normalblue.gif");
-    loadingGIF_blue.loop();
+    loadingGIF_ink = new Gif(this, "broadmind-loader-ink.gif"); //BROADMIND ink spinner
+    loadingGIF_ink.loop();
 
     prepareExitHandler();
 
@@ -966,7 +1007,7 @@ void systemDraw() { //for drawing to the screen
     }
 
     //Display GUI version and FPS in the title bar of the app
-    surface.setTitle("OpenBCI GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
+    surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
 }
 
 void requestReinit() {
@@ -1001,7 +1042,7 @@ void updateToNChan(int _nchan) {
 void introAnimation() {
     pushStyle();
     imageMode(CENTER);
-    background(255);
+    background(BLACK); //BROADMIND: the splash is a black surface with white ink
     int t1 = 0;
     float transparency = 0;
 
@@ -1009,15 +1050,20 @@ void introAnimation() {
         transparency = map(millis() - settings.introAnimationInit, t1, settings.introAnimationDuration, 0, 255);
         verbosePrint(String.valueOf(transparency));
         tint(255, transparency);
-        //draw OpenBCI Logo Front & Center
-        image(cog, width/2, height/2, width/6, width/6);
+        //BROADMIND lockup, centred. Width drives height: the lockup is 2.25:1
+        //and must never be stretched to a square.
+        float lockupW = width / 4.0f;
+        float lockupH = lockupW * ((float) cog.height / (float) cog.width);
+        image(cog, width/2, height/2, lockupW, lockupH);
+        noTint();
         textFont(p3, 16);
         textLeading(24);
-        fill(31, 69, 110, transparency);
+        fill(WHITE, transparency);
         textAlign(CENTER, CENTER);
-        String displayVersion = "OpenBCI GUI " + localGUIVersionString;
-        text(displayVersion, width/2, height/2 + width/9);
-        text(localGUIVersionDate, width/2, height/2 + ((width/8) * 1.125));
+        String displayVersion = "BROADMIND GUI " + localGUIVersionString;
+        text(displayVersion, width/2, height/2 + (lockupH/2) + 48);
+        fill(BM_GREY, transparency);
+        text(localGUIVersionDate, width/2, height/2 + (lockupH/2) + 74);
     }
 
     //Exit intro animation when the duration has expired AND the Control Panel is ready

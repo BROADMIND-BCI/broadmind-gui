@@ -75,7 +75,7 @@ class W_GanglionImpedance extends Widget {
             popStyle();
         }
 
-        image(loadingGIF_blue, x + padding + startStopCheck.getWidth() + 15, y + padding - 8, 40, 40);
+        image(loadingGIF_ink, x + padding + startStopCheck.getWidth() + 15, y + padding - 8, 40, 40);
         popStyle();
     }
 
