@@ -136,7 +136,24 @@ the restyle. Fixed here by **removing the bundled JNA jars** (`LSLLink/library/`
 file OpenBCI_GUI/libraries/*/library/jna.jar   # should not exist any more
 ```
 
-### 7.2 Visual defects introduced by the first palette pass, then fixed
+### 7.2 Starting any session crashed on Apple Silicon too
+
+`libraries/jSerialComm` bundled **jSerialComm 2.6.0 (2020)**, whose macOS native exists only for
+`OSX/x86_64`. Enumerating serial ports - which happens when a session starts - threw:
+
+```
+UnsatisfiedLinkError: ... (macho file, but is an incompatible architecture
+(have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64'))
+```
+
+Fixed by replacing it with **jSerialComm 2.11.0**, which ships `OSX/aarch64`. Check with:
+
+```bash
+unzip -l OpenBCI_GUI/libraries/jSerialComm/library/jSerialComm.jar | grep OSX
+unzip -p OpenBCI_GUI/libraries/jSerialComm/library/jSerialComm.jar META-INF/MANIFEST.MF | grep Version
+```
+
+### 7.3 Visual defects introduced by the first palette pass, then fixed
 
 | Defect | Cause | Fix |
 |---|---|---|
@@ -144,6 +161,20 @@ file OpenBCI_GUI/libraries/*/library/jna.jar   # should not exist any more
 | "System Control Panel" and hovered rows were white-on-grey (1.5:1) | button hover/pressed backgrounds were mapped to the brand grey while their captions stayed white | hover `#595959` (6.4:1), pressed black (21:1) |
 | Footer still sent people to `docs.openbci.com` | upstream help text | reads `BROADMIND GUI - broadmind.me` |
 | "Shop" opened the OpenBCI store | upstream nav button | relabelled "Kit", opens `broadmind.me` |
+| Selected data-source row and the 8/16-channel buttons became **solid black bars with no label** | the highlight used `TURN_ON_GREEN` (mapped to ink) while `MenuList` draws its items in ink, and black pressed buttons carried ink captions | list highlight is now the brand grey (ink on `#D5D5D5` = 14:1) |
 
 The rule that came out of this: **the brand grey is a surface colour for dark text only. Any control
 that draws white captions must sit on ink.**
+
+### 7.4 One documented deviation from the palette
+
+Active and selected button backgrounds are `#595959`, which the guidelines describe as *secondary
+text on white or grey* and explicitly say should never fill a surface.
+
+The reason is mechanical: controlP5 gives a button one caption colour for every state, and this
+application has two button families - white captions on dark chrome, and ink captions on white
+panels. No single active background gives both families an accessible pairing: ink forces a light
+surface, white forces a dark one. `#595959` is the one value that clears 3:1 for both
+(white 6.4:1, ink 3.9:1), so it is used as a functional state colour in the same spirit as the error
+red, not as a brand colour. If the buttons were ever unified onto one caption colour, this could
+become pure ink and the deviation would disappear.

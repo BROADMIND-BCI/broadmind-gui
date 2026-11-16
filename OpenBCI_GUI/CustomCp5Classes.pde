@@ -219,7 +219,8 @@ public class MenuList extends controlP5.Controller {
             if (i == activeItem) {
                 menu.stroke(TURN_ON_GREEN);
                 menu.strokeWeight(1);
-                menu.fill(TURN_ON_GREEN);
+                menu.fill(BM_GREY); //BROADMIND: items are drawn in ink, so the highlight
+                                    //must be a light surface (TURN_ON_GREEN is ink for buttons)
                 menu.rect(0, 0, getWidth()-1, itemHeight-1 );
                 menu.noStroke();
             } else {

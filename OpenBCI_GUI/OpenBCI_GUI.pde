@@ -260,13 +260,15 @@ final color GREY_200 = BM_GREY;
 final color GREY_125 = BM_TEXT_GREY;
 final color GREY_100 = BM_TEXT_GREY;
 final color GREY_20 = BLACK;
-final color TURN_ON_GREEN = BLACK;
+final color TURN_ON_GREEN = BLACK;      // ON-state buttons carry white captions, so this
+                                        // must stay dark. The MenuList highlight is a
+                                        // different case (ink text) and uses BM_GREY.
 final color TURN_OFF_RED = BM_TEXT_GREY;
 final color BOLD_RED = color(224, 56, 45); // functional only: errors
 final color BUTTON_HOVER = BM_TEXT_GREY;   // hover carries white text: 6.4:1
 final color BUTTON_HOVER_LIGHT = BM_TEXT_GREY;
-final color BUTTON_PRESSED = BLACK;        // pressed/active carries white text: 21:1
-final color BUTTON_PRESSED_LIGHT = BLACK;
+final color BUTTON_PRESSED = BM_TEXT_GREY;  // mid grey: white captions 6.4:1, ink captions 3.9:1
+final color BUTTON_PRESSED_LIGHT = BM_TEXT_GREY;
 final color BUTTON_LOCKED_GREY = BM_GREY;
 final color BUTTON_PRESSED_DARKGREY = BLACK;
 final color BUTTON_NOOBGREEN = BLACK;
@@ -1008,8 +1010,7 @@ void systemDraw() { //for drawing to the screen
     }
 
     //Display GUI version and FPS in the title bar of the app
-    surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
-}
+    surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");}
 
 void requestReinit() {
     reinitRequested = true;
