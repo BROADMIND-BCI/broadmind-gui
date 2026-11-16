@@ -40,6 +40,17 @@ This document is a hub for the project. Jump to a section below, or just scroll 
 * [Find out more](#find-out-more)
 * [Installing](#installing)
 
+## Shipping it to other people
+
+`tools/build-standalone.sh` produces a single `BROADMIND GUI.app` that runs without Processing and
+without this repository — 673 MB, containing the Java runtime, the sketch libraries and a licence
+bundle. Everything the app writes goes to `~/Documents/BROADMIND GUI/`.
+
+It is verified by hiding `Processing.app` and confirming the app still reaches
+`Setup is complete`. Size, legal position and the release checklist are in
+[docs/DISTRIBUTION.md](docs/DISTRIBUTION.md) — including the four inherited libraries whose
+licences are **not yet confirmed**, which is why the bundle is internal-use only for now.
+
 ## Checking a release
 
 ```bash
