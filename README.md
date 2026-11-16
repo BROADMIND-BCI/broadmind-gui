@@ -48,6 +48,24 @@ This document is a hub for the project. Jump to a section below, or just scroll 
 * [Find out more](#find-out-more)
 * [Installing](#installing)
 
+## Checking a release
+
+```bash
+tools/verify-release.sh                                   # uses /Applications/Processing.app
+PROCESSING_APP=/path/to/Processing.app tools/verify-release.sh
+```
+
+Seventeen checks: no licensed fonts in the tree or history, version consistency between the sketch,
+CHANGELOG and README, arm64 natives for JNA and jSerialComm, brand palette and no legacy OpenBCI
+blues, no temporary capture hooks, relative links, then a real compile and a real launch. Exit code
+0 means ready. Each check exists because it caught a defect that shipped.
+
+## Starter page design
+
+The onboarding screen is designed in [docs/design](docs/design): a black-and-white outline schematic
+of the headset being put on and connected by USB, with the animation, four stills and a port plan for
+the GUI.
+
 ## What are we doing?
 
 ### The problem
