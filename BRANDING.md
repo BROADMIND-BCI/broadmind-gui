@@ -88,10 +88,10 @@ spinner — is strictly black / white / grey / text grey.
 
 ## 5. Status
 
-The restyle **builds and runs** with Processing 4. It was run on macOS arm64 and the control panel
-was captured for [docs/screenshots](docs/screenshots). It has **not** been run against real hardware,
-and the session views have not been captured or reviewed by a designer. Treat the first pass as a
-brand application to review, not a finished redesign.
+The restyle **builds and runs** with Processing 4. It has been run on macOS arm64, and both the
+control panel and a live session are captured for [docs/screenshots](docs/screenshots) - the session
+capture streams all eight channels from a bundled recording, so the waveforms are real. It has
+**not** been run against real hardware.
 
 Build:
 
@@ -178,3 +178,36 @@ surface, white forces a dark one. `#595959` is the one value that clears 3:1 for
 (white 6.4:1, ink 3.9:1), so it is used as a functional state colour in the same spirit as the error
 red, not as a brand colour. If the buttons were ever unified onto one caption colour, this could
 become pure ink and the deviation would disappear.
+
+### 7.5 Window and button style pass
+
+The window frame is now one continuous ink band: the top navigation and the sub-navigation share
+`BLACK`, with white ink on it (21:1). Previously the two rows were a white bar over a grey bar, which
+read as two unrelated strips. The workspace beneath stays white, so the frame reads as a frame.
+
+Button hierarchy:
+
+| Role | Style |
+|---|---|
+| Chrome actions (top nav, sub-nav, collapsers) | ink fill, white label |
+| Panel actions (`START SESSION`, channel count, streamer choices) | white fill, 1px ink border, ink label |
+| State colour | `#595959` active surface - see §7.4 |
+
+### 7.6 The "Start Data Stream" button was invisible
+
+`createToggleDataStreamButton` was called with `TURN_ON_GREEN` as the fill and
+`OPENBCI_DARKBLUE` as the label colour. Once both tokens resolved to ink, the button rendered as an
+empty black rectangle. It now takes `WHITE` as the label colour.
+
+That button is not cosmetic: `startRunning()` is called from exactly one place, its release handler.
+A user who could not see it could start a session and get a frozen clock with every channel at
+`0.00 uV`, which is indistinguishable from a broken instrument. Fixing the label is what made a live
+session possible.
+
+### 7.7 Version line, and the upstream update check
+
+This build is **v0.2.0 Beta, November 2026**, its own version line. `guiVersionIsUpToDate()` compared
+that against OpenBCI's latest release (6.0.0-beta.1) and therefore always reported "Update Available",
+with a yellow banner pointing at a different product. The upstream check is now disabled and the
+button reports the BROADMIND build instead. Re-enable it against this repository's own releases when
+there are any.

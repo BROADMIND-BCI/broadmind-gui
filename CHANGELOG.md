@@ -1,3 +1,33 @@
+# Changelog
+
+## 0.2.0 Beta - November 2026 (BROADMIND build)
+
+First BROADMIND-branded release of this fork, based on upstream OpenBCI GUI `d8543aa`.
+
+### Brand
+- Monochrome palette applied across the application: black, white, brand grey `#D5D5D5` and text
+  grey `#595959`, resolved through one palette block.
+- Window frame is a single ink band with white ink on it; workspace is white.
+- BROADMIND lockup on the splash, mark in the navigation bar, ink loading spinner.
+- Typeface resolved through `bmPFont()`: Geometria when licensed files are installed, Arial
+  otherwise. No licensed fonts are distributed with this repository.
+
+### Fixed (inherited from upstream, all fatal or blocking on Apple Silicon)
+- Bundled JNA carried an i386/x86_64-only native, so the application died at startup on arm64.
+- Bundled jSerialComm 2.6.0 carried only an `OSX/x86_64` native, so starting any session died.
+- `updateToNChan()` left the FFT array full of nulls when reached during a live session, so the
+  first data frame threw `NullPointerException`.
+- The "Start Data Stream" button drew its ink label on an ink background, making it invisible -
+  which is also why a session appeared to start with no data.
+
+### Changed
+- Version line is this fork's own: `v0.2.0-beta.1`, dated November 2026. The upstream GitHub
+  update check is disabled, because comparing against OpenBCI's release number always reported a
+  spurious "Update Available".
+- "Shop" navigation button is "Kit" and points at broadmind.me; the footer reads
+  `BROADMIND GUI - broadmind.me`.
+
+---
 # v6.0.0
 
 ### Improvements

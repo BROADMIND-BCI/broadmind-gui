@@ -88,7 +88,7 @@ class TopNav {
 
         if (!secondaryNavInit) {
             //Buttons on the left side of the GUI secondary nav bar
-            createToggleDataStreamButton(stopButton_pressToStart_txt, PAD_3, SUBNAV_BUT_Y, DATASTREAM_BUT_W, SUBNAV_BUT_H, h4, 14, TURN_ON_GREEN, OPENBCI_DARKBLUE);
+            createToggleDataStreamButton(stopButton_pressToStart_txt, PAD_3, SUBNAV_BUT_Y, DATASTREAM_BUT_W, SUBNAV_BUT_H, h4, 14, TURN_ON_GREEN, WHITE); //BROADMIND: was OPENBCI_DARKBLUE (ink) on an ink background, so the label was invisible
             createFiltersButton("Filters", PAD_3*2 + toggleDataStreamingButton.getWidth(), SUBNAV_BUT_Y, SUBNAV_BUT_W, SUBNAV_BUT_H, h4, 14, SUBNAV_LIGHTBLUE, WHITE);
 
             //Appears at Top Right SubNav while in a Session
@@ -234,34 +234,15 @@ class TopNav {
 
     //Load data from the latest release page using Github API and compare to local version
     public Boolean guiVersionIsUpToDate() {
-        //Copy the local GUI version from OpenBCI_GUI.pde
-        float localVersion = getVersionAsFloat(localGUIVersionString);
-
-        boolean internetIsConnected = pingWebsite(guiLatestVersionGithubAPI);
-
-        if (internetIsConnected) {
-            println("TopNav: Internet Connection Successful");
-            //Get the latest release version from Github
-            String remoteVersionString = getGUIVersionFromInternet(guiLatestVersionGithubAPI);
-            float remoteVersion = getVersionAsFloat(remoteVersionString);   
-            
-            println("Local Version: " + localGUIVersionString + ", Latest Version: " + remoteVersionString);
-
-            if (localVersion < remoteVersion) {
-                println("GUI needs to be updated. Download at https://github.com/OpenBCI/OpenBCI_GUI/releases/latest");
-                updateGuiVersionButton.setDescription("GUI needs to be updated. -- Local: " + localGUIVersionString +  " GitHub: " + remoteVersionString);
-                return false;
-            } else {
-                println("GUI is up to date!");
-                updateGuiVersionButton.setDescription("GUI is up to date! -- Local: " + localGUIVersionString +  " GitHub: " + remoteVersionString);
-                return true;
-            }
-        } else {
-            println("TopNav: Internet Connection Not Available");
-            println("Local GUI Version: " + localGUIVersionString);
-            updateGuiVersionButton.setDescription("Connect to internet to check GUI version. -- Local: " + localGUIVersionString);
-            return null;
+        //BROADMIND: this build carries its own version line (0.2.0 Beta, November 2026) and
+        //does not follow OpenBCI's release numbering. Comparing against the upstream GitHub
+        //release therefore always reported a bogus "Update Available", pointing users at a
+        //different product. The upstream check is disabled for this build.
+        println("TopNav: BROADMIND build " + localGUIVersionString + " (" + localGUIVersionDate + ")");
+        if (updateGuiVersionButton != null) {
+            updateGuiVersionButton.setDescription("BROADMIND build " + localGUIVersionString + " - " + localGUIVersionDate);
         }
+        return true;
     }
 
     private String getGUIVersionFromInternet(String _url) {

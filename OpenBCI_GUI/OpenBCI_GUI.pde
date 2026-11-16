@@ -62,8 +62,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //                       Global Variables & Instances
 //------------------------------------------------------------------------
 //Used to check GUI version in TopNav.pde and displayed on the splash screen on startup
-String localGUIVersionString = "v6.0.0-beta.1";
-String localGUIVersionDate = "September 2023";
+String localGUIVersionString = "v0.2.0-beta.1";
+String localGUIVersionDate = "November 2026";
 String guiLatestVersionGithubAPI = "https://api.github.com/repos/OpenBCI/OpenBCI_GUI/releases/latest";
 String guiLatestReleaseLocation = "https://github.com/OpenBCI/OpenBCI_GUI/releases/latest";
 Boolean guiIsUpToDate;
@@ -276,7 +276,7 @@ final color BUTTON_EXPERTPURPLE = BLACK;
 final color BUTTON_CAUTIONRED = BOLD_RED;
 final color OBJECT_BORDER_GREY = BM_GREY;
 final color TOPNAV_DARKBLUE = BLACK;
-final color SUBNAV_LIGHTBLUE = BM_GREY;
+final color SUBNAV_LIGHTBLUE = BLACK;   // window frame is one ink band
 //Use the same colors for X,Y,Z throughout Accelerometer widget
 final color ACCEL_X_COLOR = BOLD_RED;
 final color ACCEL_Y_COLOR = color(49, 113, 89);
@@ -291,7 +291,7 @@ final color SIGNAL_CHECK_RED_LOWALPHA = color(224, 56, 45, 150);
 final int COLOR_SCHEME_DEFAULT = 1;
 final int COLOR_SCHEME_ALTERNATIVE_A = 2;
 // int COLOR_SCHEME_ALTERNATIVE_B = 3;
-int colorScheme = COLOR_SCHEME_DEFAULT; //BROADMIND: light chrome, black ink
+int colorScheme = COLOR_SCHEME_ALTERNATIVE_A; //BROADMIND: ink window frame, white text
 
 WidgetManager wm;
 boolean wmVisible = true;

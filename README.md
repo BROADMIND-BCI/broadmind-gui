@@ -5,7 +5,8 @@
 <h1 align="center">BROADMIND GUI</h1>
 
 <p align="center">
-  Visualise and record EEG from OpenBCI-compatible hardware
+  Visualise and record EEG from OpenBCI-compatible hardware<br>
+  <strong>v0.2.0 Beta &middot; November 2026</strong>
 </p>
 
 > **Fork note.** This is a BROADMIND build of the OpenBCI GUI. The application is upstream
@@ -21,11 +22,17 @@
 ## Screenshots
 
 <p align="center">
-  <img alt="BROADMIND GUI control panel" src="docs/screenshots/control-panel.png" width="820">
+  <img alt="BROADMIND GUI system control panel" src="docs/screenshots/control-panel.png" width="780">
 </p>
+<p align="center"><em>System control panel - ink window frame, white workspace, the mark centred.</em></p>
 
-The system control panel: monochrome chrome, the BROADMIND mark centred in the navigation bar, and
-everything else black, white or grey. The workspace is white; the marks and buttons are ink.
+<p align="center">
+  <img alt="BROADMIND GUI session view with live EEG" src="docs/screenshots/session-playback.png" width="780">
+</p>
+<p align="center"><em>A session: time series, FFT and accelerometer, eight channels streaming.</em></p>
+
+Both captures are from the running application, not mockups. The session view uses a bundled
+recording, so the waveforms are real data.
 
 ## Welcome!
 
