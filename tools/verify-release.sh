@@ -138,6 +138,9 @@ else
   # ------------------------------------------------------------ 7. run smoke
   section "7. Run smoke test (no samples required)"
   RUNLOG=/tmp/bm-run.log
+  # Processing launches the sketch with a JDWP agent on a fixed port (8845). A second
+  # instance cannot bind it and dies silently, so clear any stray BROADMIND_GUI first.
+  pkill -f 'BROADMIND_GUI' 2>/dev/null; sleep 1
   rm -rf "$OUTD" "$RUNLOG"
   _JAVA_OPTIONS="-Duser.home=$TMPH" "$APP/Contents/MacOS/Processing" cli \
       --sketch="$SKETCH" --output="$OUTD" --run > "$RUNLOG" 2>&1 &
