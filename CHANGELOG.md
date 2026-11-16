@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2 Beta - November 2026
+
+### Changed
+- Starter page cycle is **12 s** (was 13.5 s).
+- The schematic is now **centred on the window and painted underneath the interface**: an open
+  data-source sub-panel covers it instead of pushing it aside, so the page no longer slides right or
+  shrinks when a sub-panel opens. The copy sits in a fixed right-hand column, clear of the panel's
+  widest reach, so no text is truncated.
+- README screenshots and the starter-page GIF regenerated from this build; the fork note moved to
+  the end of the README.
+
+---
 ## 0.2.1 Beta - November 2026
 
 ### Added

@@ -31,26 +31,22 @@ final float[][] BM_CABLE = {
     {234, 446, 300, 480, 486, 504}
 };
 
-final int BM_CYCLE_MS = 13500;   // 1.5x the original 9 s loop
+final int BM_CYCLE_MS = 12000;   // 12 s loop
 
-// Draw the starter page in the free workspace. Two layouts, because the control panel grows a
-// sub-panel (CHANNEL COUNT / BRAINFLOW STREAMER) to its right once a data source is chosen:
-//   wide   - copy column on the left, schematic on the right
-//   narrow - copy on top, schematic below, so nothing can overlap the panel
+// Draw the starter page. It is centred in the window and drawn *underneath* the interface:
+// the control panel simply covers whatever part of it it needs to. That way the page never
+// slides sideways or shrinks when a data-source sub-panel opens - the panel comes to it.
 void drawStarterPage() {
-    // Right edge of the control panel group. A chosen data source opens a sub-panel that extends
-    // well past the 256px base panel, so the page must start after it.
-    float panelRight = (eegDataSource == -1) ? 290 : 715;
-    float x0 = panelRight + 24;
-    float avail = width - x0 - 32;
-    float availH = height - 150;
-    if (avail < 240 || availH < 240) return;      // window too small: leave it clean
+    float cx = width / 2.0;                       // the schematic is centred on the window itself
+    float copyW = min(400, width - 720);          // copy lives right of the widest panel
+    if (copyW < 240) return;
+    float blockX = width - 30 - copyW;            // right-aligned, so it cannot be covered
 
     float t = millis() % BM_CYCLE_MS;
 
     // one phase variable drives all three lines, so caption and body can never disagree
-    int phase = t < 3000 ? 0 : (t < 6000 ? 1 : (t < 9000 ? 2 : 3));
-    String[] kickers  = {"01 - PUT IT ON", "02 - CONTACT", "03 - CONNECT", "READY"};
+    int phase = t < 2700 ? 0 : (t < 5400 ? 1 : (t < 8100 ? 2 : 3));
+    String[] kickers   = {"01 - PUT IT ON", "02 - CONTACT", "03 - CONNECT", "READY"};
     String[] headlines = {"Put the headset on.", "Let it settle.", "Connect the cable.", "Start recording."};
     String[] bodies = {
         "Eight dry contacts settle on the sensorimotor set.",
@@ -59,45 +55,35 @@ void drawStarterPage() {
         "The device is on and connected."
     };
 
-    boolean wide = avail >= 620;
-    float copyX = x0;
-    float copyY = 120;
-    float schX, schY, schW, schH;
-
-    if (wide) {
-        schW = min(avail * 0.58, availH * 0.92);
-        schH = schW;
-        schX = x0 + avail - schW;
-        schY = 190;
-    } else {
-        schW = min(avail, availH - 210);
-        schH = schW;
-        schX = x0;
-        schY = copyY + 190;
-    }
-
     // ---- copy -------------------------------------------------------------
+    float copyY = 108;
     noStroke();
     fill(BM_TEXT_GREY); textFont(p4); textAlign(LEFT, BASELINE);
-    text(kickers[phase], copyX, copyY);
+    text(kickers[phase], blockX, copyY);
 
     fill(BLACK); textFont(p0);
-    text(headlines[phase], copyX, copyY + 42);
+    text(headlines[phase], blockX, copyY + 44);
 
     fill(BM_TEXT_GREY); textFont(p4);
-    text(bodies[phase], copyX, copyY + 74);
+    text(bodies[phase], blockX, copyY + 76);
 
     for (int i = 0; i < 3; i++) {
         stroke(BLACK); strokeWeight(1.5);
-        fill((t > 3000 * i) ? BLACK : WHITE);
-        ellipse(copyX + 6 + i * 18, copyY + 106, 8, 8);
+        fill((t > 2700 * i) ? BLACK : WHITE);
+        ellipse(blockX + 6 + i * 18, copyY + 108, 8, 8);
     }
     noStroke();
 
-    // ---- schematic --------------------------------------------------------
+    // ---- schematic, centred under the copy ---------------------------------
+    // schematic centred under everything, sized to the window height
+    float availH = height - 330;
+    float schW = min(620, availH);
+    if (schW < 200) return;
     float scale = schW / 620.0;
+
     pushMatrix();
-    translate(schX, schY);
+    // the drawing's own centre sits near x=440 in its 600-unit space
+    translate(cx - 440 * scale, 260);
     scale(scale);
 
     stroke(BLACK); strokeWeight(2.2); noFill();
@@ -118,7 +104,7 @@ void drawStarterPage() {
     bezierVertex(288, 300, 291, 293, 298, 292);
     endShape(CLOSE);
 
-    float lift = t < 3000 ? map(t, 0, 3000, -34, 0) : 0;
+    float lift = t < 2700 ? map(t, 0, 2700, -34, 0) : 0;
     pushMatrix();
     translate(0, lift);
     stroke(BLACK); strokeWeight(2.6); noFill();
@@ -132,15 +118,15 @@ void drawStarterPage() {
         float u = i / 7.0, a = 1 - u;
         float bx = a*a*BM_BAND[0] + 2*a*u*BM_BAND[2] + u*u*BM_BAND[4];
         float by = a*a*BM_BAND[1] + 2*a*u*BM_BAND[3] + u*u*BM_BAND[5];
-        boolean inked = t > 3000 + i * 105;
+        boolean inked = t > 2700 + i * 95;
         stroke(BLACK); strokeWeight(2);
         fill(inked ? BLACK : WHITE);
         ellipse(bx, by, 13, 13);
     }
     popMatrix();
 
-    if (t > 6000) {
-        float prog = constrain(map(t, 6000, 9000, 0, 1), 0, 1);
+    if (t > 5400) {
+        float prog = constrain(map(t, 5400, 8100, 0, 1), 0, 1);
         stroke(BLACK); strokeWeight(1.8); noFill();
         drawPartialBezier(250, 208, BM_CABLE[0][0], BM_CABLE[0][1], BM_CABLE[0][2], BM_CABLE[0][3], BM_CABLE[0][4], BM_CABLE[0][5], prog);
         if (prog > 0.55) {
@@ -149,7 +135,7 @@ void drawStarterPage() {
         }
     }
 
-    if (t > 7800) {
+    if (t > 7000) {
         stroke(BLACK); strokeWeight(2.2); noFill();
         rect(506, 432, 140, 68);
         strokeWeight(1.4);

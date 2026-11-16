@@ -62,7 +62,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //                       Global Variables & Instances
 //------------------------------------------------------------------------
 //Used to check GUI version in TopNav.pde and displayed on the splash screen on startup
-String localGUIVersionString = "v0.2.1-beta.1";
+String localGUIVersionString = "v0.2.2-beta.1";
 String localGUIVersionDate = "November 2026";
 String guiLatestVersionGithubAPI = "https://api.github.com/repos/OpenBCI/OpenBCI_GUI/releases/latest";
 String guiLatestReleaseLocation = "https://github.com/OpenBCI/OpenBCI_GUI/releases/latest";
@@ -991,6 +991,12 @@ void systemDraw() { //for drawing to the screen
     noStroke();
     //background(255);  //clear the screen
 
+    //BROADMIND: the starter page is painted first and sits UNDER the interface, so the control
+    //panel covers it rather than pushing it aside.
+    if (systemMode < SYSTEMMODE_POSTINIT) {
+        drawStarterPage();
+    }
+
     if (systemMode >= SYSTEMMODE_POSTINIT) {
         wm.draw();
         drawContainers();
@@ -1006,11 +1012,6 @@ void systemDraw() { //for drawing to the screen
 
         //Draw output window at the bottom of the GUI
         helpWidget.draw();
-    }
-
-    //BROADMIND: the starter page fills the workspace while no session is running.
-    if (systemMode < SYSTEMMODE_POSTINIT) {
-        drawStarterPage();
     }
 
     //Draw button help text close to the top

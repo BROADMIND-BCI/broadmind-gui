@@ -6,16 +6,8 @@
 
 <p align="center">
   Visualise and record EEG from OpenBCI-compatible hardware<br>
-  <strong>v0.2.1 Beta &middot; November 2026</strong>
+  <strong>v0.2.2 Beta &middot; November 2026</strong>
 </p>
-
-> **Fork note.** This is a BROADMIND build of the OpenBCI GUI. The application is upstream
-> [`OpenBCI/OpenBCI_GUI`](https://github.com/OpenBCI/OpenBCI_GUI), MIT-licensed, and nothing in the
-> acquisition, protocol or board-support code was changed. This build differs in presentation:
-> the BROADMIND brand system - black, white and one grey, set in Geometria where it is licensed and
-> installed and Arial otherwise - with functional colours (channel identity, error states)
-> deliberately preserved. Every upstream author credit and the licence are unchanged; see
-> [LICENSE](LICENSE).
 
 ---
 
@@ -70,8 +62,9 @@ this is the running app (13.5 s cycle):
   <img alt="The BROADMIND starter page: the headband lowers onto a head, eight contacts ink in, and a USB-C cable draws itself into a laptop" src="docs/design/starter-animation.gif" width="780">
 </p>
 
-Layout is responsive: with a data-source sub-panel open, the copy stacks above the schematic rather
-than overlapping it.
+The schematic is centred on the window and painted **underneath** the interface: an open
+data-source sub-panel covers it rather than pushing it aside, so the page never slides or shrinks.
+The copy sits in a fixed right-hand column, clear of the panel at its widest, so nothing is truncated.
 
 ## What are we doing?
 
@@ -220,3 +213,15 @@ MIT
 <p align="center">
   BROADMIND · <a href="https://broadmind.me">broadmind.me</a>
 </p>
+
+---
+
+## Fork note
+
+This is a BROADMIND build of the OpenBCI GUI. The application is upstream
+[`OpenBCI/OpenBCI_GUI`](https://github.com/OpenBCI/OpenBCI_GUI), MIT-licensed, and nothing in the
+acquisition, protocol or board-support code was changed. This build differs in presentation:
+the BROADMIND brand system - black, white and one grey, set in Geometria where it is licensed and
+installed and Arial otherwise - with functional colours (channel identity, error states)
+deliberately preserved. Every upstream author credit and the licence are unchanged; see
+[LICENSE](LICENSE).
