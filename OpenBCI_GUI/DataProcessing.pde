@@ -262,6 +262,13 @@ class DataProcessing {
 
     public void process(float[][] data_forDisplay_uV, ddf.minim.analysis.FFT[] fftData) {              //holds the FFT (frequency spectrum) of the latest data
 
+        //BROADMIND: never dereference an uninitialised FFT buffer. A channel-count change
+        //can reallocate fftBuff at any point; dropping this frame is better than crashing
+        //the whole GUI mid-recording.
+        if (fftBuff == null || fftBuff.length == 0 || fftBuff[0] == null) {
+            return;
+        }
+
         float prevFFTdata[] = new float[fftBuff[0].specSize()];
 
         for (int Ichan=0; Ichan < nchan; Ichan++) { 

@@ -1010,7 +1010,8 @@ void systemDraw() { //for drawing to the screen
     }
 
     //Display GUI version and FPS in the title bar of the app
-    surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");}
+    surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
+}
 
 void requestReinit() {
     reinitRequested = true;
@@ -1038,6 +1039,18 @@ void updateToNChan(int _nchan) {
     nchan = _nchan;
     settings.slnchan = _nchan; //used in SoftwareSettings.pde only
     fftBuff = new ddf.minim.analysis.FFT[nchan];  //reinitialize the FFT buffer
+
+    //BROADMIND fix: the line above allocates an array of nulls. When this function runs
+    //during a live session (it is reachable from a data-source event, not only from
+    //initSystem), every downstream consumer then dereferenced a null FFT and threw
+    //NullPointerException in DataProcessing.process() -> fftBuff[0].specSize().
+    //Rebuild the FFT objects whenever a board already exists.
+    if (currentBoard != null) {
+        for (int i = 0; i < nchan; i++) {
+            fftBuff[i] = new ddf.minim.analysis.FFT(getNfftSafe(), currentBoard.getSampleRate());
+        }
+    }
+
     println("OpenBCI_GUI: Channel count set to " + str(nchan));
 }
 
