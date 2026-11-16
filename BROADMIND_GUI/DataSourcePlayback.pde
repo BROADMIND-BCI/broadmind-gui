@@ -79,8 +79,17 @@ abstract class DataSourcePlayback implements DataSource, FileBoard  {
 
     protected boolean instantiateUnderlyingBoard() {
         try {
-            // get class from name
-            Class<?> boardClass = Class.forName(underlyingClassName);
+            // Recordings made before the BROADMIND rename embed the OLD sketch class name in
+            // their header - the file format stores e.g. "OpenBCI_GUI$BoardCytonSerial" - so
+            // Class.forName on it fails after renaming the sketch class. Map the legacy prefix
+            // instead of changing the file format, so old recordings keep loading.
+            String className = underlyingClassName;
+            if (className != null && className.startsWith("OpenBCI_GUI")) {
+                className = className.replaceFirst("OpenBCI_GUI", "BROADMIND_GUI");
+                verbosePrint("BROADMIND GUI: playback file names legacy class " + underlyingClassName
+                             + " -> loading " + className);
+            }
+            Class<?> boardClass = Class.forName(className);
             // find default contructor (since this is processing, PApplet is required arg in all constructors)
             Constructor<?> constructor = boardClass.getConstructor(BROADMIND_GUI.class);
             underlyingBoard = (Board)constructor.newInstance(ourApplet);

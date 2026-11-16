@@ -142,13 +142,20 @@ else
   # instance cannot bind it and dies silently, so clear any stray BROADMIND_GUI first.
   pkill -f 'BROADMIND_GUI' 2>/dev/null; sleep 1
   rm -rf "$OUTD" "$RUNLOG"
+  export BROADMIND_TEST_PLAYBACK=1   # arms TestHarness.pde; inert in a normal run
   _JAVA_OPTIONS="-Duser.home=$TMPH" "$APP/Contents/MacOS/Processing" cli \
       --sketch="$SKETCH" --output="$OUTD" --run > "$RUNLOG" 2>&1 &
   RUNPID=$!
   # Wait for the sketch to finish setup rather than a fixed sleep: startup varies with the
   # network reachability check and a cold JNA cache. Hard stop at 75 s.
-  for _ in $(seq 1 75); do
+  # Wait for setup, then for the playback harness to report a live stream - that is the
+  # regression this suite exists to catch.
+  for _ in $(seq 1 60); do
     grep -q 'Setup is complete' "$RUNLOG" 2>/dev/null && break
+    sleep 1
+  done
+  for _ in $(seq 1 45); do
+    grep -q 'BROADMIND TEST: streaming OK' "$RUNLOG" 2>/dev/null && break
     sleep 1
   done
   # Snapshot before killing: terminating the JVM produces its own ThreadDeath fatal-error
@@ -172,6 +179,20 @@ else
     ok "setup reached completion"
   else
     bad "setup did not complete - see $RUNLOG"
+  fi
+
+  # The regression this check exists for: a playback session that starts but never streams,
+  # leaving a frozen clock and 0.00 uV on every channel.
+  section "8. Playback streaming"
+  if grep -q 'BROADMIND TEST: streaming OK' "$SCAN"; then
+    ok "a playback session starts streaming on its own"
+  else
+    bad "playback did not start streaming - the frozen-clock bug is back (see $RUNLOG)"
+  fi
+  if grep -q 'Data stream started' "$SCAN"; then
+    ok "the data stream reports started"
+  else
+    bad "no 'Data stream started' in the log"
   fi
 fi
 

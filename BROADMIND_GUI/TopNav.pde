@@ -317,6 +317,19 @@ class TopNav {
         });
     }
 
+    //BROADMIND: start the stream without a click, for sources that have nothing to wait for.
+    //Mirrors the button handler (same label/colour updates) so the UI stays consistent.
+    public void autoStartStreaming() {
+        if (currentBoard == null || currentBoard.isStreaming()) return;
+        println("BROADMIND GUI: auto-starting data stream for this data source");
+        startRunning();
+        if (currentBoard.isStreaming()) {
+            toggleDataStreamingButton.getCaptionLabel().setText(stopButton_pressToStop_txt);
+            toggleDataStreamingButton.setColorBackground(TURN_OFF_RED);
+            nextPlayback_millis = millis();
+        }
+    }
+
     private void createToggleDataStreamButton(String text, int _x, int _y, int _w, int _h, PFont font, int _fontSize, color _bg, color _textColor) {
         toggleDataStreamingButton = createTNButton("toggleDataStreamingButton", text, _x, _y, _w, _h, font, _fontSize, _bg, _textColor);
         toggleDataStreamingButton.onRelease(new CallbackListener() {

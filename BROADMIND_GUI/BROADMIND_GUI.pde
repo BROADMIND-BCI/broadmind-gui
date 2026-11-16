@@ -62,7 +62,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //                       Global Variables & Instances
 //------------------------------------------------------------------------
 //Used to check GUI version in TopNav.pde and displayed on the splash screen on startup
-String localGUIVersionString = "v0.2.0-beta.1";
+String localGUIVersionString = "v0.2.1-beta.1";
 String localGUIVersionDate = "November 2026";
 String guiLatestVersionGithubAPI = "https://api.github.com/repos/OpenBCI/OpenBCI_GUI/releases/latest";
 String guiLatestReleaseLocation = "https://github.com/OpenBCI/OpenBCI_GUI/releases/latest";
@@ -419,6 +419,7 @@ void setup() {
     p6 = bmPFont(false, 10);
 
     cog = loadImage("broadmind-lockup-white.png"); //splash lockup on black
+    bmTestInit(); // automated test harness (inert unless env var set)
 
     // check if the current directory is writable
     File dummy = new File(sketchPath());
@@ -775,6 +776,14 @@ void initSystem() {
 
     verbosePrint("BROADMIND GUI: initSystem: -- Init 5 -- " + millis());
 
+    //BROADMIND: a playback file or the synthetic board has nothing to connect to, so a session
+    //used to sit at 00:00 with every channel at 0.00 uV until the user found the "Start Data
+    //Stream" button. Start those sources automatically. Hardware sources still wait for the
+    //user, because the device may not be powered yet.
+    if (eegDataSource == DATASOURCE_PLAYBACKFILE || eegDataSource == DATASOURCE_SYNTHETIC) {
+        topNav.autoStartStreaming();
+    }
+
     midInit = false;
 } //end initSystem
 
@@ -999,6 +1008,11 @@ void systemDraw() { //for drawing to the screen
         helpWidget.draw();
     }
 
+    //BROADMIND: the starter page fills the workspace while no session is running.
+    if (systemMode < SYSTEMMODE_POSTINIT) {
+        drawStarterPage();
+    }
+
     //Draw button help text close to the top
     buttonHelpText.draw();
 
@@ -1011,6 +1025,7 @@ void systemDraw() { //for drawing to the screen
 
     //Display GUI version and FPS in the title bar of the app
     surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
+    bmTestTick(); // automated test harness
 }
 
 void requestReinit() {

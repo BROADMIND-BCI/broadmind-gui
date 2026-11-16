@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.2.1 Beta - November 2026
+
+### Added
+- **Starter page.** The workspace beside the control panel now shows a black-and-white outline
+  schematic of the headset being put on and connected by USB-C: the band lowers onto the head, the
+  eight contacts ink in, the cable draws itself into the machine. Drawn as vector geometry in
+  `StarterPage.pde`, not an image, so it stays crisp and cannot drift from the palette. The cycle is
+  13.5 s. Layout is responsive: when a data-source sub-panel is open the copy stacks above the
+  schematic instead of colliding with it.
+- An animated GIF of the starter page in the README.
+- `TestHarness.pde`: an environment-gated harness (`BROADMIND_TEST_PLAYBACK`) that drives a real
+  playback session so the release suite can assert that data actually streams.
+
+### Fixed
+- **Playback sessions never started streaming.** `startRunning()` was reachable only from the
+  "Start Data Stream" button, so a playback or synthetic session sat at 00:00 with every channel at
+  0.00 uV until the user found that button. Those two sources now start automatically; hardware
+  sources still wait for the user.
+- **Renaming the sketch broke playback files.** Recordings store the old sketch class name in their
+  header (`OpenBCI_GUI$BoardCytonSerial`), so `Class.forName` failed after the rename. The legacy
+  prefix is now mapped on load, so recordings made before the rebrand still open.
+- The footer no longer tints itself per message level (blue INFO, green SUCCESS, amber WARN, red
+  ERROR); it is a neutral surface and the wording carries the level.
+
+---
 ## 0.2.0 Beta - November 2026 (BROADMIND build)
 
 First BROADMIND-branded release of this fork, based on upstream OpenBCI GUI `d8543aa`.

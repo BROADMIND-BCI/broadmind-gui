@@ -6,7 +6,7 @@
 
 <p align="center">
   Visualise and record EEG from OpenBCI-compatible hardware<br>
-  <strong>v0.2.0 Beta &middot; November 2026</strong>
+  <strong>v0.2.1 Beta &middot; November 2026</strong>
 </p>
 
 > **Fork note.** This is a BROADMIND build of the OpenBCI GUI. The application is upstream
@@ -55,16 +55,23 @@ tools/verify-release.sh                                   # uses /Applications/P
 PROCESSING_APP=/path/to/Processing.app tools/verify-release.sh
 ```
 
-Seventeen checks: no licensed fonts in the tree or history, version consistency between the sketch,
-CHANGELOG and README, arm64 natives for JNA and jSerialComm, brand palette and no legacy OpenBCI
-blues, no temporary capture hooks, relative links, then a real compile and a real launch. Exit code
-0 means ready. Each check exists because it caught a defect that shipped.
+Checks cover version consistency between the sketch, CHANGELOG and README, arm64 natives for JNA and
+jSerialComm, the brand palette and absence of legacy OpenBCI blues, stray capture hooks, relative
+links, then a real compile, a real launch and a playback session that must start streaming on its
+own. Exit code 0 means ready.
 
 ## Starter page design
 
 The onboarding screen is designed in [docs/design](docs/design): a black-and-white outline schematic
-of the headset being put on and connected by USB, with the animation, four stills and a port plan for
-the GUI.
+of the headset being put on and connected by USB. It is built into the application, not a mockup -
+this is the running app (13.5 s cycle):
+
+<p align="center">
+  <img alt="The BROADMIND starter page: the headband lowers onto a head, eight contacts ink in, and a USB-C cable draws itself into a laptop" src="docs/design/starter-animation.gif" width="780">
+</p>
+
+Layout is responsive: with a data-source sub-panel open, the copy stacks above the schematic rather
+than overlapping it.
 
 ## What are we doing?
 

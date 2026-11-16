@@ -147,36 +147,11 @@ class HelpWidget {
         return OPENBCI_DARKBLUE;
     }
 
-    private color getBackgroundColor(int fadeVal) {  
-        int sat = 0;
-        int maxSat = 75;
-        switch (curOutputLevel) {
-            case INFO:
-                //base color - #BDE5F8;
-                sat = 25;
-                sat = (int)map(fadeVal, 0, 100, sat, maxSat);
-                return color(199, sat, 97);
-            case SUCCESS:
-                //base color -  #DFF2BF;
-                maxSat = 25;
-                sat = 0;
-                sat = (int)map(fadeVal, 0, 100, sat, maxSat);
-                return color(106, sat, 95);
-            case WARN:
-                //base color -  #FEEFB3;
-                sat = 30;
-                sat = (int)map(fadeVal, 0, 100, sat, maxSat);
-                return color(48, sat, 100);
-            case ERROR:
-                //base color -  #FFD2D2;
-                sat = 18;
-                sat = (int)map(fadeVal, 0, 100, sat, maxSat);
-                return color(0, sat, 100);
-            case DEFAULT:
-            default:
-                colorMode(RGB, 255, 255, 255);
-                return WHITE;
-        }
+    private color getBackgroundColor(int fadeVal) {
+        //BROADMIND: the footer is a neutral surface. Upstream tinted it per level (blue INFO,
+        //green SUCCESS, amber WARN, red ERROR), which read as colour-coded chrome in a monochrome
+        //product. The level is carried by the wording instead.
+        return BM_GREY;
     }
 
     public void output(String _output, OutputLevel level) {
