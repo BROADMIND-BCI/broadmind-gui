@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BROADMIND GUI — Put it on. Connect it. Start recording.</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;500&amp;display=swap" rel="stylesheet">
+<style>
+/* Broadmind brand: black #000, white #FFF, grey #D5D5D5. Text grey #595959 for secondary text and hairlines only.
+   Type: Geometria Medium (500) + Light (300); Figtree is the stand-in, as in the brandbook. */
+body{margin:0;background:#FFFFFF}
+a{color:#000000;text-decoration:none}a:hover{color:#000000}
+*{box-sizing:border-box}
+.bm{background:#FFFFFF;color:#000000;font-family:Geometria,Figtree,Arial,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow:hidden;font-variant-numeric:tabular-nums}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.med{font-weight:500}
+.display{font-weight:500;font-size:88px;line-height:1;letter-spacing:-0.025em;margin:0}
+.heading{font-weight:500;font-size:52px;line-height:1.05;letter-spacing:-0.025em;margin:0}
+.sub{font-weight:500;font-size:28px;line-height:1.15;letter-spacing:-0.01em;margin:0}
+.body{font-weight:300;font-size:20px;line-height:1.45;margin:0;max-width:34em}
+.caption{font-weight:300;font-size:16px;line-height:1.4;margin:0}
+.label{font-weight:500;font-size:13px;line-height:1.3;letter-spacing:0.04em;text-transform:uppercase}
+.kicker{font-weight:500;font-size:15px;line-height:1.3}
+.tgrey{color:#595959}
+.onblack{background:#000000;color:#FFFFFF}
+.onblack .tgrey,.onblack .soft{color:#D5D5D5}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(213,213,213,0.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.navlinks a{font-weight:300;font-size:15px;padding:10px 12px;border-radius:99px;transition:background 250ms ease-in-out}
+.navlinks a:hover{background:#FFFFFF}
+
+/* placeholder slots for master files (logo, glass forms) */
+.slot{display:flex;align-items:center;justify-content:center;border:1px dashed #595959;color:#595959;font-weight:500;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;text-align:center}
+.onblack .slot{border-color:#595959;color:#D5D5D5}
+
+/* buttons: pills, echoing the dots of the mark */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;font-weight:500;font-size:16px;border:1px solid #000000;transition:background 250ms ease-in-out,color 250ms ease-in-out,border-color 250ms ease-in-out}
+.btn-primary{background:#000000;color:#FFFFFF}
+.btn-primary:hover{background:#FFFFFF;color:#000000}
+.btn-ghost{background:transparent;color:#000000}
+.btn-ghost:hover{background:#000000;color:#FFFFFF}
+.onblack .btn-primary{background:#FFFFFF;color:#000000;border-color:#FFFFFF}
+.onblack .btn-primary:hover{background:#000000;color:#FFFFFF}
+.onblack .btn-ghost{color:#FFFFFF;border-color:#FFFFFF}
+.onblack .btn-ghost:hover{background:#FFFFFF;color:#000000}
+.btn-sm{min-height:44px;padding:0 20px;font-size:15px}
+
+/* motion: liquid, slow, continuous. Forms 800–1600ms, UI 200–300ms, ease-in-out. */
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.rise{animation:rise 1200ms ease-in-out both}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,10px)}}
+.drift{animation:drift 14s ease-in-out infinite}
+@keyframes reveal{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){
+  .reveal{animation:reveal ease-in-out both;animation-timeline:view();animation-range:entry 0% cover 30%}
+}
+
+/* app window */
+.app{background:#000000;color:#FFFFFF;border-radius:24px;overflow:hidden}
+.appbody{display:grid;grid-template-columns:minmax(0,1fr) 300px}
+.trace{overflow:hidden}
+.trace .scroll{animation:scroll 12s linear infinite}
+@keyframes scroll{to{transform:translateX(-600px)}}
+.fftbar{flex:1;background:#D5D5D5;border-radius:3px 3px 0 0;transform-origin:bottom;animation:breathe 3.2s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scaleY(.8)}to{transform:scaleY(1)}}
+.bandtrack{border:1px solid #595959;border-radius:99px;height:10px;padding:1px}
+.band{height:6px;border-radius:99px;background:#FFFFFF;transform-origin:left;animation:bandflow 4s ease-in-out infinite alternate}
+@keyframes bandflow{from{transform:scaleX(.82)}to{transform:scaleX(1)}}
+.status{display:inline-grid}
+.status span.s{grid-area:1/1;display:inline-flex;align-items:center;gap:8px}
+.st1{animation:st1 10s ease-in-out infinite}
+.st2{animation:st2 10s ease-in-out infinite}
+@keyframes st1{0%,40%{opacity:1}52%,100%{opacity:0}}
+@keyframes st2{0%,40%{opacity:0}52%,100%{opacity:1}}
+.ring-dot{width:9px;height:9px;border-radius:50%;border:1px solid #D5D5D5}
+.full-dot{width:9px;height:9px;border-radius:50%;background:#FFFFFF}
+
+/* demo video */
+.videoframe{position:relative;max-width:1000px;margin:0 auto;border-radius:24px;overflow:hidden;background:#000000;border:1px solid #D5D5D5}
+.playover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:0;padding:0;cursor:pointer;background:rgba(0,0,0,0.38);transition:background 300ms ease-in-out}
+.playover:hover{background:rgba(0,0,0,0.5)}
+.playbtn{display:inline-flex;align-items:center;gap:12px;min-height:60px;padding:0 30px;border-radius:999px;background:#FFFFFF;color:#000000;font:500 18px Geometria,Figtree,Arial,sans-serif;transition:background 250ms ease-in-out,color 250ms ease-in-out}
+.playover:hover .playbtn{background:#000000;color:#FFFFFF}
+.playmeta{color:#FFFFFF;font-size:15px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;position:relative}
+.card{border:1px solid #D5D5D5;border-radius:24px;background:#FFFFFF;transition:border-color 250ms ease-in-out}
+.card:hover{border-color:#000000}
+.onblack .card{background:#000000;border-color:#595959}
+.onblack .card:hover{border-color:#FFFFFF}
+.illus{height:220px;border-radius:16px;background:#D5D5D5;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.contact{fill:#FFFFFF;animation:settle 8s ease-in-out infinite}
+@keyframes settle{0%,12%{fill:#FFFFFF}30%,85%{fill:#000000}100%{fill:#FFFFFF}}
+.contact:nth-of-type(1){animation-delay:0s}.contact:nth-of-type(2){animation-delay:.3s}.contact:nth-of-type(3){animation-delay:.6s}.contact:nth-of-type(4){animation-delay:.9s}.contact:nth-of-type(5){animation-delay:1.2s}.contact:nth-of-type(6){animation-delay:1.5s}.contact:nth-of-type(7){animation-delay:1.8s}.contact:nth-of-type(8){animation-delay:2.1s}
+.plug{animation:plug 4.8s ease-in-out infinite}
+@keyframes plug{0%,12%{transform:translateX(-44px)}42%,82%{transform:translateX(0)}100%{transform:translateX(-44px)}}
+.ring{position:absolute;width:150px;height:56px;border-radius:999px;border:1px solid #000000;animation:ring 3.2s ease-in-out infinite}
+@keyframes ring{from{transform:scale(1);opacity:.7}to{transform:scale(1.5);opacity:0}}
+.startbtn{position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;background:#000000;color:#FFFFFF;font-weight:500;font-size:16px;padding:16px 26px;border-radius:999px}
+.connector{position:absolute;top:-36px;left:0;right:0;height:1px;background:#D5D5D5}
+.connector::after{content:"";position:absolute;top:-2px;left:0;width:5px;height:5px;border-radius:50%;background:#000000;animation:travel 6s ease-in-out infinite alternate}
+@keyframes travel{from{left:0}to{left:calc(100% - 5px)}}
+
+/* one window */
+.bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.span2{grid-column:span 2}
+.chip{font-weight:500;font-size:14px;padding:8px 14px;border:1px solid #595959;border-radius:999px;transition:border-color 250ms ease-in-out}
+.chip:hover{border-color:#FFFFFF}
+.filecard{animation:float 7s ease-in-out infinite}
+.filecard.f2{animation-delay:-2.3s}.filecard.f3{animation-delay:-4.6s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* install */
+.install{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.term{background:#000000;color:#FFFFFF;border-radius:24px;overflow:hidden}
+.seg{display:inline-flex;border:1px solid #595959;border-radius:999px;padding:3px}
+.tab{min-height:44px;padding:0 18px;border-radius:999px;border:0;background:transparent;color:#D5D5D5;font:500 15px Geometria,Figtree,Arial,sans-serif;cursor:pointer;transition:background 250ms ease-in-out,color 250ms ease-in-out}
+.tab:hover{color:#FFFFFF}
+.tab.on{background:#FFFFFF;color:#000000}
+.copybtn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #595959;background:transparent;color:#FFFFFF;font:500 14px Geometria,Figtree,Arial,sans-serif;cursor:pointer;transition:border-color 250ms ease-in-out}
+.copybtn:hover{border-color:#FFFFFF}
+.cmd{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom}
+@supports (animation-timeline: view()){
+  .cmd1{animation:type ease-in-out both;animation-timeline:view();animation-range:entry 30% cover 45%}
+  .cmd2{animation:type ease-in-out both;animation-timeline:view();animation-range:entry 55% cover 55%}
+  .outl{animation:fadein ease-in-out both;animation-timeline:view();animation-range:entry 80% cover 60%}
+}
+@keyframes type{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.check{display:flex;gap:14px;align-items:flex-start}
+.foot{display:grid;grid-template-columns:1.6fr repeat(3,minmax(0,1fr));gap:32px}
+.foot a{font-weight:300;font-size:15px;transition:color 250ms ease-in-out}
+.foot a:hover{color:#595959}
+
+@media (max-width: 960px){
+  .hero{grid-template-columns:1fr !important}
+  .formslot{display:none !important}
+  .appbody{grid-template-columns:1fr}
+  .side{border-left:none !important;border-top:1px solid #595959}
+  .steps,.bento,.install,.facts{grid-template-columns:1fr !important}
+  .span2{grid-column:auto}
+  .connector{display:none}
+  .foot{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 760px){
+  .navlinks{display:none !important}
+  .wrap{padding:0 20px}
+  .display{font-size:52px}
+  .heading{font-size:38px}
+  .hidesm{display:none !important}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .st1{opacity:0}.st2{opacity:1}
+}
+</style>
+</helmet>
+
+<div class="bm" style="position: relative; min-height: 100vh">
+
+<!-- NAV -->
+<header class="nav">
+<nav class="wrap" aria-label="Primary" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 16px">
+<a href="#top" aria-label="BROADMIND home" style="display: flex; align-items: center">
+<span class="slot" style="width: 132px; height: 36px; border-radius: 8px; font-size: 10px">Logo lockup</span>
+</a>
+<div class="navlinks" style="display: flex; gap: 2px">
+<a href="#">Kit</a><a href="#">Signal</a><a href="#">Specs</a><a href="#">Team</a><a href="#">Blog</a><a href="#">FAQ</a>
+</div>
+<a class="btn btn-primary btn-sm" href="#">Reserve a kit</a>
+</nav>
+</header>
+
+<!-- HERO -->
+<section id="top" style="position: relative; background: #D5D5D5; padding: 88px 0 0">
+<div class="wrap hero" style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; position: relative">
+<div style="display: flex; flex-direction: column; gap: 28px; position: relative; z-index: 2">
+<a href="#install" class="label rise" style="animation-delay: 0ms; display: inline-flex; align-items: center; gap: 10px; align-self: flex-start"><span style="background: #000000; color: #FFFFFF; border-radius: 999px; padding: 6px 12px">New</span>Now on Homebrew for macOS</a>
+<h1 class="display rise" style="animation-delay: 200ms">Put it on.<br>Connect it.<br>Start recording.</h1>
+<p class="body rise" style="animation-delay: 500ms">The desktop app for the BROADMIND Research Kit. It walks you through fitting the eight-channel dry EEG headset, waits for the contacts to settle, then records every sample at full rate.</p>
+<div class="rise" style="animation-delay: 750ms; display: flex; flex-wrap: wrap; gap: 12px">
+<a class="btn btn-primary" href="#">Request beta access</a>
+<a class="btn btn-ghost" href="#install">Install with Homebrew</a>
+</div>
+<p class="caption tgrey rise" style="animation-delay: 950ms">v0.2.2 beta · Free during the beta · macOS 11 or later · Apple silicon and Intel</p>
+</div>
+<div class="formslot rise" style="animation-delay: 400ms; position: relative; height: 520px">
+<div class="slot drift" style="position: absolute; left: 0; right: -220px; top: 0; bottom: 0; border-radius: 48% 52% 46% 54% / 55% 45% 55% 45%">Glass form render<br>place from master files</div>
+</div>
+</div>
+
+<!-- APP MOCKUP -->
+<div class="wrap" style="position: relative; z-index: 3; margin-top: 64px; padding-bottom: 0">
+<div class="app rise" style="animation-delay: 1000ms; margin-bottom: -120px" role="img" aria-label="BROADMIND GUI session window: eight live EEG channels, a frequency spectrum and band power">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid #595959">
+<div style="display: flex; gap: 8px; align-items: center">
+<span style="width: 12px; height: 12px; border-radius: 50%; border: 1px solid #595959"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; border: 1px solid #595959"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; border: 1px solid #595959"></span>
+<span class="caption hidesm" style="margin-left: 14px; font-size: 14px; color: #D5D5D5">Session</span>
+</div>
+<div style="display: flex; align-items: center; gap: 18px">
+<span class="status label">
+<span class="s st1"><span class="ring-dot"></span><span style="color: #D5D5D5">Contacts settling</span></span>
+<span class="s st2"><span class="full-dot"></span><span>Recording</span></span>
+</span>
+<span class="med" style="font-size: 15px; border: 1px solid #595959; padding: 6px 12px; border-radius: 999px">{{clock}}</span>
+</div>
+</div>
+<div class="appbody">
+<div style="padding: 20px 22px 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px">
+<span class="label" style="color: #D5D5D5">Time series</span>
+<span class="caption hidesm" style="font-size: 13px; color: #D5D5D5">Raw · full rate</span>
+</div>
+<sc-for list="{{chans}}" as="ch" hint-placeholder-count="8">
+<div style="display: flex; align-items: center; gap: 14px; height: 46px">
+<span class="med" style="width: 38px; font-size: 12px; color: #D5D5D5">{{ch.label}}</span>
+<svg class="trace" viewBox="0 0 600 40" preserveAspectRatio="none" style="flex: 1; height: 40px" aria-hidden="true"><g class="scroll"><path d="{{ch.d}}" fill="none" stroke="{{ch.color}}" stroke-width="1.3" vector-effect="non-scaling-stroke"></path></g></svg>
+</div>
+</sc-for>
+</div>
+<div class="side" style="border-left: 1px solid #595959; padding: 20px 22px; display: flex; flex-direction: column; gap: 26px">
+<div>
+<div class="label" style="color: #D5D5D5; margin-bottom: 14px">FFT</div>
+<div style="display: flex; align-items: flex-end; gap: 3px; height: 130px; border-bottom: 1px solid #595959">
+<sc-for list="{{fft}}" as="b" hint-placeholder-count="28">
+<div class="fftbar" style="height: {{b.h}}%; animation-delay: {{b.d}}s"></div>
+</sc-for>
+</div>
+</div>
+<div>
+<div class="label" style="color: #D5D5D5; margin-bottom: 14px">Band power</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{bands}}" as="bd" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 56px 1fr; align-items: center; gap: 10px">
+<span style="font-size: 13px; color: #D5D5D5">{{bd.name}}</span>
+<div class="bandtrack"><div class="band" style="width: {{bd.w}}%; animation-delay: {{bd.d}}s"></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="margin-top: auto">
+<div class="label" style="color: #D5D5D5; margin-bottom: 12px">Export</div>
+<div style="display: flex; gap: 8px">
+<span class="chip">CSV</span><span class="chip">EDF</span><span class="chip">JSON</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FACTS -->
+<section style="padding: 200px 0 40px">
+<div class="wrap facts" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #000000; padding-top: 18px"><span class="label">Channels</span><span class="sub">Eight, dry</span><span class="caption tgrey">No gel or paste</span></div>
+<div class="reveal" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #000000; padding-top: 18px"><span class="label">Connection</span><span class="sub">USB-C</span><span class="caption tgrey">Battery-powered recording path</span></div>
+<div class="reveal" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #000000; padding-top: 18px"><span class="label">Data</span><span class="sub">Raw, full rate</span><span class="caption tgrey">CSV, EDF or JSON</span></div>
+<div class="reveal" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #000000; padding-top: 18px"><span class="label">Price</span><span class="sub">Free in beta</span><span class="caption tgrey">Open SDK alongside</span></div>
+</div>
+</section>
+
+<!-- DEMO VIDEO -->
+<section id="demo" style="padding: 140px 0 40px">
+<div class="wrap">
+<div class="reveal" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 48px">
+<div style="display: flex; flex-direction: column; gap: 18px">
+<span class="kicker">01 — Demo</span>
+<h2 class="heading">See it run.</h2>
+</div>
+<p class="body tgrey" style="max-width: 26em">A 26-second walkthrough of v0.2.2 beta: the guided setup, step by step, through to Start Session.</p>
+</div>
+<div class="videoframe reveal">
+<video ref="{{setVideo}}" src="./assets/gui-demo.mp4" poster="./assets/hero.jpg" playsinline="" preload="metadata" controls="{{showControls}}" onPlay="{{onPlay}}" onPause="{{onPause}}" onEnded="{{onEnded}}" aria-label="BROADMIND GUI demo: launching the app, fitting the headset, connecting the cable and starting a session" style="display: block; width: 100%; aspect-ratio: 4 / 3; background: #000000"></video>
+<sc-if value="{{showOverlay}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="playover" onClick="{{play}}" aria-label="Play the demo video">
+<span class="playbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>Watch the demo</span>
+<span class="caption playmeta">0:26 · no sound</span>
+</button>
+</sc-if>
+</div>
+</div>
+</section>
+
+<!-- STEPS -->
+<section style="padding: 120px 0 140px">
+<div class="wrap">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 96px">
+<span class="kicker">02 — Easy start</span>
+<h2 class="heading">Three things, in this order.</h2>
+<p class="body tgrey">The app shows you the same sequence on screen during setup. No manual, no technician, no guesswork.</p>
+</div>
+<div class="steps">
+<div class="connector" aria-hidden="true"></div>
+
+<article class="card reveal" style="padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div class="illus">
+<svg width="200" height="180" viewBox="0 0 200 180" role="img" aria-label="Top view of a head with eight contacts settling one by one">
+<path d="M92 22 L100 8 L108 22" fill="none" stroke="#000000" stroke-width="1.5" stroke-linejoin="round"></path>
+<ellipse cx="30" cy="92" rx="8" ry="16" fill="none" stroke="#000000" stroke-width="1.5"></ellipse>
+<ellipse cx="170" cy="92" rx="8" ry="16" fill="none" stroke="#000000" stroke-width="1.5"></ellipse>
+<ellipse cx="100" cy="92" rx="70" ry="74" fill="#D5D5D5" stroke="#000000" stroke-width="1.5"></ellipse>
+<g stroke="#000000" stroke-width="1.5">
+<circle class="contact" cx="78" cy="44" r="7"></circle>
+<circle class="contact" cx="122" cy="44" r="7"></circle>
+<circle class="contact" cx="60" cy="88" r="7"></circle>
+<circle class="contact" cx="140" cy="88" r="7"></circle>
+<circle class="contact" cx="86" cy="98" r="7"></circle>
+<circle class="contact" cx="114" cy="98" r="7"></circle>
+<circle class="contact" cx="78" cy="138" r="7"></circle>
+<circle class="contact" cx="122" cy="138" r="7"></circle>
+</g>
+</svg>
+</div>
+<span class="label tgrey">Step 1</span>
+<h3 class="sub">Put it on</h3>
+<p class="caption tgrey" style="font-size: 17px; line-height: 1.45">Eight dry contacts sit on standard EEG positions. No gel, no paste, no technician.</p>
+</article>
+
+<article class="card reveal" style="padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div class="illus">
+<svg width="220" height="120" viewBox="0 0 220 120" role="img" aria-label="A USB-C cable sliding into a laptop port">
+<rect x="128" y="34" width="84" height="52" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"></rect>
+<rect x="132" y="52" width="14" height="16" rx="6" fill="#D5D5D5" stroke="#000000" stroke-width="1.5"></rect>
+<g class="plug">
+<path d="M8 60 H82" stroke="#000000" stroke-width="5" stroke-linecap="round"></path>
+<rect x="80" y="48" width="40" height="24" rx="10" fill="#000000"></rect>
+<rect x="118" y="54" width="16" height="12" rx="5" fill="#000000"></rect>
+</g>
+</svg>
+</div>
+<span class="label tgrey">Step 2</span>
+<h3 class="sub">Connect the cable</h3>
+<p class="caption tgrey" style="font-size: 17px; line-height: 1.45">One USB-C cable to your recording machine. The kit runs on battery, so nothing mains-powered sits in the recording path.</p>
+</article>
+
+<article class="card reveal" style="padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div class="illus">
+<span class="ring" aria-hidden="true"></span>
+<span class="startbtn" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>Start Session</span>
+</div>
+<span class="label tgrey">Step 3</span>
+<h3 class="sub">Press Start Session</h3>
+<p class="caption tgrey" style="font-size: 17px; line-height: 1.45">Time series, FFT and band power appear together in one window. Export to CSV, EDF or JSON.</p>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ONE WINDOW (black room) -->
+<section class="onblack" style="padding: 140px 0">
+<div class="wrap">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 64px">
+<span class="kicker soft">03 — One window</span>
+<h2 class="heading" style="max-width: 15em">Everything you need to see. Every sample you need to keep.</h2>
+</div>
+<div class="bento">
+<article class="card reveal span2" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; min-height: 340px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="sub">Time series, at full rate</h3>
+<p class="caption soft" style="font-size: 17px; line-height: 1.45; max-width: 30em">All eight channels, live, as raw data. Nothing is decimated on the way to disk.</p>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{mini}}" as="m" hint-placeholder-count="3">
+<svg class="trace" viewBox="0 0 600 40" preserveAspectRatio="none" style="width: 100%; height: 56px" aria-hidden="true"><g class="scroll"><path d="{{m.d}}" fill="none" stroke="{{m.color}}" stroke-width="1.4" vector-effect="non-scaling-stroke"></path></g></svg>
+</sc-for>
+</div>
+</article>
+<article class="card reveal" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; min-height: 340px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="sub">FFT</h3>
+<p class="caption soft" style="font-size: 17px; line-height: 1.45">The spectrum, updating as you record.</p>
+</div>
+<div aria-hidden="true" style="margin-top: auto; display: flex; align-items: flex-end; gap: 4px; height: 150px">
+<sc-for list="{{fft}}" as="b" hint-placeholder-count="28">
+<div class="fftbar" style="height: {{b.h}}%; animation-delay: {{b.d}}s"></div>
+</sc-for>
+</div>
+</article>
+<article class="card reveal" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; min-height: 320px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="sub">Band power</h3>
+<p class="caption soft" style="font-size: 17px; line-height: 1.45">Delta to gamma at a glance.</p>
+</div>
+<div aria-hidden="true" style="margin-top: auto; display: flex; flex-direction: column; gap: 14px">
+<sc-for list="{{bands}}" as="bd" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; gap: 12px">
+<span style="font-size: 14px; color: #D5D5D5">{{bd.name}}</span>
+<div class="bandtrack"><div class="band" style="width: {{bd.w}}%; animation-delay: {{bd.d}}s"></div></div>
+</div>
+</sc-for>
+</div>
+</article>
+<article class="card reveal span2" style="padding: 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; min-height: 320px">
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 10px">
+<h3 class="sub">Your data, in open formats</h3>
+<p class="caption soft" style="font-size: 17px; line-height: 1.45; max-width: 26em">Export every session to CSV, EDF or JSON and take it straight into your own pipeline, alongside the open SDK.</p>
+</div>
+<div aria-hidden="true" style="flex: 1 1 320px; display: flex; gap: 16px; justify-content: center">
+<sc-for list="{{files}}" as="f" hint-placeholder-count="3">
+<div class="filecard {{f.cls}}" style="width: 108px; height: 132px; border-radius: 16px; border: 1px solid #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; padding: 16px">
+<div style="display: flex; flex-direction: column; gap: 7px"><span style="height: 3px; width: 70%; background: #595959; border-radius: 3px"></span><span style="height: 3px; width: 90%; background: #595959; border-radius: 3px"></span><span style="height: 3px; width: 55%; background: #595959; border-radius: 3px"></span></div>
+<span class="med" style="font-size: 17px">.{{f.ext}}</span>
+</div>
+</sc-for>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- INSTALL -->
+<section id="install" style="padding: 140px 0; background: #D5D5D5">
+<div class="wrap install">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 22px">
+<span class="kicker">04 — Install</span>
+<h2 class="heading">Two lines.<br>Or let an agent do it.</h2>
+<p class="body tgrey">The public macOS build is live as a Homebrew cask. Paste the commands into a terminal, or hand them to your AI agent. Either way it is the same clean install.</p>
+<div style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px">
+<div class="check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg><span style="font-size: 18px">Checksum verified, installed to /Applications</span></div>
+<div class="check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg><span style="font-size: 18px">No admin scripts, no security workarounds</span></div>
+<div class="check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg><span style="font-size: 18px">macOS 11 or later, Apple silicon and Intel</span></div>
+</div>
+</div>
+
+<div class="reveal" style="display: flex; flex-direction: column; gap: 16px">
+<div class="term">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 14px; border-bottom: 1px solid #595959; gap: 8px; flex-wrap: wrap">
+<div role="tablist" aria-label="Install method" class="seg">
+<button type="button" role="tab" class="tab {{termCls}}" aria-selected="{{termSel}}" onClick="{{showTerm}}">Terminal</button>
+<button type="button" role="tab" class="tab {{agentCls}}" aria-selected="{{agentSel}}" onClick="{{showAgent}}">Agent prompt</button>
+</div>
+<button type="button" class="copybtn" onClick="{{copy}}">{{copyLabel}}</button>
+</div>
+<sc-if value="{{isTerm}}" hint-placeholder-val="{{ true }}">
+<div role="tabpanel" style="padding: 28px 26px 32px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 15px; line-height: 2; min-height: 220px; overflow-x: auto">
+<div><span style="color: #D5D5D5">$ </span><span class="cmd cmd1">brew tap broadmind-bci/broadmind-gui</span></div>
+<div><span style="color: #D5D5D5">$ </span><span class="cmd cmd2">brew install --cask broadmind-gui</span></div>
+<div class="outl" style="color: #D5D5D5; margin-top: 8px">==&gt; Verifying checksum<br>==&gt; Moving App 'BROADMIND GUI.app' to '/Applications'</div>
+</div>
+</sc-if>
+<sc-if value="{{isAgent}}" hint-placeholder-val="{{ false }}">
+<div role="tabpanel" style="padding: 28px 26px 32px; min-height: 220px; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 18px; line-height: 1.5">Install BROADMIND GUI on this Mac. Run <span style="font-family: ui-monospace, Menlo, monospace; font-size: 15px; border-bottom: 1px solid #595959">brew tap broadmind-bci/broadmind-gui</span>, then <span style="font-family: ui-monospace, Menlo, monospace; font-size: 15px; border-bottom: 1px solid #595959">brew install --cask broadmind-gui</span>, and open it from /Applications.</p>
+<p class="caption" style="color: #D5D5D5">Paste this into any coding agent with terminal access.</p>
+</div>
+</sc-if>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px; border-color: #FFFFFF">
+<span class="label">macOS · Live now</span>
+<span class="caption tgrey" style="font-size: 15px">The Homebrew cask is public. Two lines and you are recording.</span>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px; border-color: #FFFFFF">
+<span class="label">Windows · Linux</span>
+<span class="caption tgrey" style="font-size: 15px">Run from source today. Packaged builds are on the way.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA (black room) -->
+<section class="onblack" style="position: relative; padding: 160px 0 0; overflow: hidden">
+<div class="slot drift hidesm" aria-hidden="true" style="position: absolute; right: -140px; top: 60px; width: 560px; height: 420px; border-radius: 52% 48% 58% 42% / 46% 54% 46% 54%">Glass form render<br>place from master files</div>
+<div class="wrap" style="position: relative">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 26px; max-width: 760px">
+<span class="kicker soft">Free during the beta</span>
+<h2 class="display">Your next session starts in three steps.</h2>
+<p class="body soft">Eight dry EEG channels, raw data and an open SDK, with an app that gets out of your way.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px">
+<a class="btn btn-primary" href="#">Request beta access</a>
+<a class="btn btn-ghost" href="#">Reserve a kit</a>
+</div>
+</div>
+</div>
+<svg class="trace" viewBox="0 0 600 40" preserveAspectRatio="none" style="display: block; width: 100%; height: 140px; margin-top: 100px" aria-hidden="true"><g class="scroll"><path d="{{wave}}" fill="none" stroke="#FFFFFF" stroke-width="1.2" vector-effect="non-scaling-stroke"></path></g></svg>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding: 72px 0 40px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div class="foot">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span class="slot" style="width: 160px; height: 44px; border-radius: 8px; font-size: 10px">Logo lockup</span>
+<p class="caption tgrey" style="max-width: 300px">A research instrument for BCI work. Eight dry EEG channels, raw data, open SDK.</p>
+</div>
+<nav aria-label="Kit" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Kit</span><a href="#">Signal</a><a href="#">Specs</a><a href="#">GUI</a><a href="#">FAQ</a></nav>
+<nav aria-label="Company" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Company</span><a href="#">Team</a><a href="#">Blog</a><a href="#">Press kit</a></nav>
+<nav aria-label="Connect" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Connect</span><a href="#">Early access</a><a href="#">Contact</a></nav>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid #D5D5D5">
+<span class="caption tgrey" style="font-size: 14px; max-width: 640px">BROADMIND is a research instrument, not a medical device. Specs are provisional, last verified 17 November 2026.</span>
+<span class="caption tgrey" style="font-size: 14px; display: flex; gap: 18px">© 2026 <a href="#" style="color: #595959">Privacy</a><a href="#" style="color: #595959">Terms</a><a href="#" style="color: #595959">Imprint</a></span>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5950}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { secs: 768, tab: 'terminal', copied: false, started: false, playing: false };
+    this._video = null;
+    this._data = null;
+  }
+  componentDidMount() {
+    this._t = setInterval(() => this.setState({ secs: this.state.secs + 1 }), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._t);
+    clearTimeout(this._c);
+  }
+  build() {
+    if (this._data) return this._data;
+    const rng = (s) => () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    const P = 600, H = 40, TAU = Math.PI * 2;
+    const make = (seed, alphaBoost) => {
+      const r = rng(seed);
+      const comps = [];
+      comps.push({ k: 1 + Math.floor(r() * 2), a: 4 + r() * 3, p: r() * TAU });
+      comps.push({ k: 3 + Math.floor(r() * 3), a: 2.5 + r() * 2, p: r() * TAU });
+      comps.push({ k: 9 + Math.floor(r() * 4), a: 2.5 + alphaBoost + r() * 2, p: r() * TAU });
+      comps.push({ k: 14 + Math.floor(r() * 4), a: 1 + r() * 1.2, p: r() * TAU });
+      for (let i = 0; i < 10; i++) comps.push({ k: 24 + Math.floor(r() * 70), a: 0.4 + r() * 0.9, p: r() * TAU });
+      let d = '';
+      for (let x = 0; x <= P * 2; x += 3) {
+        let y = H / 2;
+        for (const c of comps) y += c.a * Math.sin(TAU * c.k * x / P + c.p) * 0.75;
+        y = Math.max(2, Math.min(H - 2, y));
+        d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(1) + ' ';
+      }
+      return d;
+    };
+    const chans = [];
+    for (let c = 0; c < 8; c++) chans.push({ label: 'CH' + (c + 1), d: make(c * 97 + 13, c >= 6 ? 3 : 0), color: c % 2 ? '#D5D5D5' : '#FFFFFF' });
+    const r2 = rng(4242);
+    const fft = [];
+    for (let i = 0; i < 28; i++) {
+      let h = 92 / (1 + i * 0.32) + 8;
+      if (i >= 7 && i <= 10) h += 28 - Math.abs(i - 8.5) * 9;
+      h += r2() * 6;
+      fft.push({ h: Math.min(100, h).toFixed(0), d: (-r2() * 3.2).toFixed(2) });
+    }
+    const bands = [
+      { name: 'Delta', w: 78, d: 0 }, { name: 'Theta', w: 54, d: -0.8 }, { name: 'Alpha', w: 88, d: -1.6 },
+      { name: 'Beta', w: 42, d: -2.4 }, { name: 'Gamma', w: 22, d: -3.2 }
+    ];
+    this._data = {
+      chans,
+      mini: [chans[0], chans[3], chans[6]].map((c, i) => ({ d: c.d, color: i === 1 ? '#FFFFFF' : '#595959' })),
+      fft, bands,
+      files: [{ ext: 'csv', cls: '' }, { ext: 'edf', cls: 'f2' }, { ext: 'json', cls: 'f3' }],
+      wave: make(777, 4)
+    };
+    return this._data;
+  }
+  renderVals() {
+    const d = this.build();
+    const s = this.state.secs;
+    const pad = (n) => String(n).padStart(2, '0');
+    const isTerm = this.state.tab === 'terminal';
+    const cmd = 'brew tap broadmind-bci/broadmind-gui\nbrew install --cask broadmind-gui';
+    const prompt = 'Install BROADMIND GUI on this Mac. Run `brew tap broadmind-bci/broadmind-gui`, then `brew install --cask broadmind-gui`, and open it from /Applications.';
+    return {
+      setVideo: (el) => { this._video = el; },
+      showOverlay: !this.state.playing && !this.state.started,
+      showControls: this.state.started,
+      play: () => {
+        this.setState({ started: true });
+        const v = this._video;
+        if (v) { try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+      },
+      onPlay: () => this.setState({ playing: true, started: true }),
+      onPause: () => this.setState({ playing: false }),
+      onEnded: () => this.setState({ playing: false }),
+      clock: pad(Math.floor(s / 3600)) + ':' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60),
+      chans: d.chans, mini: d.mini, fft: d.fft, bands: d.bands, files: d.files, wave: d.wave,
+      isTerm, isAgent: !isTerm,
+      termCls: isTerm ? 'on' : '', agentCls: isTerm ? '' : 'on',
+      termSel: isTerm ? 'true' : 'false', agentSel: isTerm ? 'false' : 'true',
+      showTerm: () => this.setState({ tab: 'terminal', copied: false }),
+      showAgent: () => this.setState({ tab: 'agent', copied: false }),
+      copyLabel: this.state.copied ? 'Copied' : 'Copy',
+      copy: () => {
+        const text = isTerm ? cmd : prompt;
+        try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {}
+        this.setState({ copied: true });
+        clearTimeout(this._c);
+        this._c = setTimeout(() => this.setState({ copied: false }), 1800);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
