@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="/assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/img/favicon-64.png" sizes="64x64">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="canonical" href="https://broadmind.me/gui/">
+<meta property="og:title" content="BROADMIND GUI — Put it on. Connect it. Start recording.">
+<meta property="og:description" content="The desktop app for the BROADMIND Research Kit. Free during the beta, for macOS.">
+<meta property="og:url" content="https://broadmind.me/gui/">
+<meta property="og:image" content="https://broadmind.me/assets/img/og.jpg">
 <title>BROADMIND GUI — Put it on. Connect it. Start recording.</title>
 <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
@@ -163,23 +171,77 @@ a{color:#000000;text-decoration:none}a:hover{color:#000000}
   *,*::before,*::after{animation:none !important;transition:none !important}
   .st1{opacity:0}.st2{opacity:1}
 }
+
+  /* --- site navigation, light variant of the one used site-wide --- */
+  .bmnav { position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,.88);
+           backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+           border-bottom: 1px solid #E6E6E6; }
+  .bmnav__inner { display: flex; align-items: center; gap: 28px; height: 48px;
+                  max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
+  .bmnav__brand { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; text-decoration: none; }
+  .bmnav__brand img { height: 15px; width: auto; opacity: .92; filter: none; }
+  .bmnav__brand span { font-family: var(--font-display); font-size: 13px; font-weight: 500;
+                       letter-spacing: .19em; text-indent: .19em; color: #000; }
+  .bmnav__links { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); margin-left: auto; }
+  .bmnav__links a { font-family: var(--font-display); font-size: 13px; color: #595959;
+                    text-decoration: none; transition: color .2s ease; }
+  .bmnav__links a:hover, .bmnav__links a[aria-current] { color: #000; }
+  .bmnav__cta { font-family: var(--font-display); font-size: 13px; font-weight: 500;
+                background: #000; color: #fff; text-decoration: none; padding: 9px 18px;
+                border-radius: 999px; white-space: nowrap; transition: background .2s ease; }
+  .bmnav__cta:hover { background: #333; }
+  .bmnav__burger { display: none; width: 40px; height: 40px; border: 0; background: none;
+                   cursor: pointer; padding: 0; margin-left: 8px; }
+  .bmnav__burger span, .bmnav__burger span::before, .bmnav__burger span::after {
+    display: block; width: 18px; height: 1.5px; background: #000; content: ""; margin-inline: auto; }
+  .bmnav__burger span { position: relative; }
+  .bmnav__burger span::before { position: absolute; top: -6px; }
+  .bmnav__burger span::after { position: absolute; top: 6px; }
+  .bmdrawer { display: none; position: sticky; top: 48px; z-index: 59; background: #fff;
+              border-bottom: 1px solid #E6E6E6; padding: 16px var(--gutter) 24px;
+              flex-direction: column; gap: 14px; }
+  .bmdrawer.is-open { display: flex; }
+  .bmdrawer a { font-family: var(--font-display); font-size: 16px; color: #000; text-decoration: none; }
+  .bmdrawer__cta { background: #000; color: #fff !important; padding: 12px 18px; border-radius: 999px; text-align: center; }
+  @media (max-width: 900px) {
+    .bmnav__links, .bmnav__cta { display: none; }
+    .bmnav__burger { display: block; margin-left: auto; }
+  }
 </style>
 </helmet>
 
 <div class="bm" style="position: relative; min-height: 100vh">
 
 <!-- NAV -->
-<header class="nav">
-<nav class="wrap" aria-label="Primary" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 16px">
-<a href="/" aria-label="BROADMIND home" style="display: flex; align-items: center">
-<img src="./assets/logo-lockup-black.svg" alt="BROADMIND" style="width: 132px; height: 36px; object-fit: contain; object-position: left center">
-</a>
-<div class="navlinks" style="display: flex; gap: 2px">
-<a href="/#highlights">Kit</a><a href="/#signal">Signal</a><a href="/#specs">Specs</a><a href="/team">Team</a><a href="/blog/">Blog</a><a href="/#faq">FAQ</a>
-</div>
-<a class="btn btn-primary btn-sm" href="/#access">Reserve a kit</a>
-</nav>
+<header class="bmnav" id="bmnav">
+  <div class="bmnav__inner">
+    <a class="bmnav__brand" href="/" aria-label="BROADMIND — home">
+      <img src="/assets/img/logo-mark.png" alt="" aria-hidden="true">
+      <span>BROADMIND</span>
+    </a>
+    <nav class="bmnav__links" aria-label="Primary">
+      <a href="/#highlights">Kit</a>
+      <a href="/#signal">Signal</a>
+      <a href="/#specs">Specs</a>
+      <a href="/team">Team</a>
+      <a href="/blog/">Blog</a>
+      <a href="/gui/" aria-current="page">GUI</a>
+      <a href="/#faq">FAQ</a>
+    </nav>
+    <a class="bmnav__cta" href="/#access">Reserve a kit</a>
+    <button class="bmnav__burger" id="bmburger" aria-label="Menu" aria-expanded="false" aria-controls="bmdrawer"><span></span></button>
+  </div>
 </header>
+<nav class="bmdrawer" id="bmdrawer" aria-label="Mobile" inert>
+  <a href="/#highlights">Kit</a>
+  <a href="/#signal">Signal</a>
+  <a href="/#specs">Specs</a>
+  <a href="/team">Team</a>
+  <a href="/blog/">Blog</a>
+  <a href="/gui/" aria-current="page">GUI</a>
+  <a href="/#faq">FAQ</a>
+  <a class="bmdrawer__cta" href="/#access">Reserve a kit</a>
+</nav>
 
 <!-- HERO -->
 <section id="top" style="position: relative; background: #D5D5D5; padding: 88px 0 0">
@@ -643,6 +705,18 @@ class Component extends DCLogic {
       el.textContent = "Copied \u2014 paste into your AI";
       setTimeout(function () { el.textContent = original; delete el.dataset.busy; }, 2200);
     });
+  });
+})();
+</script>
+<script>
+(function () {
+  var burger = document.getElementById("bmburger");
+  var drawer = document.getElementById("bmdrawer");
+  if (!burger || !drawer) return;
+  burger.addEventListener("click", function () {
+    var open = drawer.classList.toggle("is-open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) { drawer.removeAttribute("inert"); } else { drawer.setAttribute("inert", ""); }
   });
 })();
 </script>
