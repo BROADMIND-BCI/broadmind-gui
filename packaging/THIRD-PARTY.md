@@ -13,7 +13,7 @@ Verified on 16 November 2026. This is an engineering inventory, not legal advice
 | BROADMIND GUI (this fork) | 0.2.2 | MIT | ✅ ours | Ship `LICENSE` |
 | OpenBCI GUI (upstream) | `d8543aa` | MIT | ✅ `LICENSE` in repo | Attribution, ship `LICENSE` |
 | Processing core | 4.5.7 | LGPL 2.1 | ✅ stated in source headers | Ship LGPL 2.1 text; keep replaceable; source offer |
-| Eclipse Temurin JDK | 17.0.20.1 | GPL v2 + Classpath Exception | ✅ `legal/java.base/LICENSE` | Ship licence + Assembly Exception |
+| Eclipse Temurin JDK | 17.0.20.1 | GPL v2 + Classpath Exception | ✅ `legal/` | Ship licence, Assembly Exception **and the full module notice tree** (done: `LICENSES/JDK-legal/`) |
 | controlP5 | 2.3.6 | LGPL 2.1 or later | ✅ source headers | Ship LGPL 2.1 text |
 | minim | 3.x | LGPL 3.0 | ✅ `libraries/minim/license.txt` | Ship LGPL 3.0 text; source offer |
 | grafica | — | LGPL | ✅ project README | Ship LGPL text |
@@ -43,6 +43,12 @@ clause upstream; the jars here are Processing's build and should be treated as B
 
 - **Geometria** (commercial typeface). Not in the source tree, not in any bundle. The app falls back
   to Arial, per the brand guidelines. See `BRANDING.md` §1.
+- **OpenBCI trademarks.** Ten logo and loading-animation files (`obci-logo-*.png`, `OBCI-6.gif`,
+  `OpenBCI-LoadingGIF*.gif`, `obci_cog_anim-*.gif`) were removed from `data/`: nothing referenced
+  them any more, and MIT grants copyright but **not trademark** rights. Do not reintroduce them.
+- **Unused OFL fonts.** Montserrat, Open Sans and Raleway were removed from `data/fonts/`: the app
+  never loaded them (only stale comments mentioned them) and shipping them without OFL texts would
+  have been a licence violation. The type is Geometria where licensed, Arial otherwise.
 - **The Processing IDE** (GPL). Only the runtime core library is redistributed; the IDE is not
   needed to run the app. This matters: bundling the IDE would impose GPL terms on the whole bundle.
 - **JUnit / Hamcrest** — test-only, excluded from the bundle.

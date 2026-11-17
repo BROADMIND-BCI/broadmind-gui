@@ -103,3 +103,43 @@ recipients on first launch. A Developer ID certificate + `notarytool` is needed 
 - [ ] Apache `NOTICE` file aggregated for Apache-2.0 components
 - [ ] Decide on Developer ID signing and notarisation
 - [ ] Counsel review if this ships commercially
+
+---
+
+## 6. Disk image, Homebrew cask and the public page
+
+```bash
+STAGE=$(mktemp -d)
+cp -R "dist/BROADMIND GUI.app" "$STAGE/"
+ln -s /Applications "$STAGE/Applications"
+hdiutil create -volname "BROADMIND GUI" -srcfolder "$STAGE" \
+  -ov -format UDZO "dist/BROADMIND GUI 0.2.2 Beta.dmg"
+shasum -a 256 "dist/BROADMIND GUI 0.2.2 Beta.dmg"
+```
+
+Current image: **375 MB**, sha256 `d7756fe2…d3c1`, checksum verified with `hdiutil verify`.
+
+The cask lives at [`packaging/homebrew/Casks/broadmind-gui.rb`](../packaging/homebrew/Casks/broadmind-gui.rb).
+To publish it:
+
+1. Create the tap repo `BROADMIND-BCI/homebrew-broadmind-gui` with `Casks/broadmind-gui.rb`.
+2. Host the `.dmg` at the URL in the cask (`https://broadmind.me/downloads/…`).
+3. Update `version` and `sha256` in the cask on every release.
+4. Users then run:
+
+```bash
+brew tap broadmind-bci/broadmind-gui
+brew install --cask broadmind-gui
+```
+
+This is the **agent-friendly** path: `brew` verifies the checksum and installs to `/Applications`
+without admin scripts. It requires a **notarised** image — without notarisation the cask would have
+to strip the quarantine flag, which we will not document.
+
+### Status of the promotional page
+
+`https://broadmind.me/gui` is live: it describes the three-step start and the Homebrew install, and
+sends people to the existing early-access form rather than offering a download, because the image is
+**internal-use only** until the four libraries in `packaging/THIRD-PARTY.md` §2 are resolved and the
+app is notarised. When that changes, add the download button and the checksum to that page.
+

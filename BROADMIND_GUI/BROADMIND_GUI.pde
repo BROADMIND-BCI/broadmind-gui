@@ -202,21 +202,21 @@ PFont f3;
 PFont f4;
 PFont f5;
 
-PFont h1; //large Montserrat
-PFont h2; //large/medium Montserrat
-PFont h3; //medium Montserrat
-PFont h4; //small/medium Montserrat
-PFont h5; //small Montserrat
+PFont h1; //heading, Geometria Medium or Arial
+PFont h2; //heading
+PFont h3; //heading
+PFont h4; //heading
+PFont h5; //heading
 
-PFont p0; //large bold Open Sans
-PFont p1; //large Open Sans
-PFont p2; //large/medium Open Sans
-PFont p3; //medium Open Sans
+PFont p0; //body, Geometria or Arial
+PFont p1; //body
+PFont p2; //body
+PFont p3; //body
 PFont p15;
-static PFont p4; //medium/small Open Sans
+static PFont p4; //body
 PFont p13;
-static PFont p5; //small Open Sans
-PFont p6; //small Open Sans
+static PFont p5; //body
+PFont p6; //body
 
 boolean setupComplete = false;
 

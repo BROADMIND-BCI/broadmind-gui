@@ -59,6 +59,10 @@ cp -R "$RES/jdk" "$APP/Contents/Resources/jdk"
 
 echo "4/5 licences"
 cp "$REPO/packaging/licenses/"* "$APP/Contents/Resources/LICENSES/"
+# The runtime bundles notices for every module (ICU, zlib, libpng, Unicode ...), not just
+# java.base. Ship the whole tree - 2.2 MB - rather than three files from one module.
+mkdir -p "$APP/Contents/Resources/LICENSES/JDK-legal"
+cp -R "$RES/jdk/legal/." "$APP/Contents/Resources/LICENSES/JDK-legal/"
 cp "$REPO/packaging/THIRD-PARTY.md" "$APP/Contents/Resources/LICENSES/THIRD-PARTY.md"
 cp "$REPO/LICENSE" "$APP/Contents/Resources/LICENSES/BROADMIND-GUI-LICENSE.txt"
 cat > "$APP/Contents/Resources/LICENSES/README-LGPL.txt" <<'LGPL'
