@@ -171,13 +171,13 @@ a{color:#000000;text-decoration:none}a:hover{color:#000000}
 <!-- NAV -->
 <header class="nav">
 <nav class="wrap" aria-label="Primary" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 16px">
-<a href="#top" aria-label="BROADMIND home" style="display: flex; align-items: center">
-<span class="slot" style="width: 132px; height: 36px; border-radius: 8px; font-size: 10px">Logo lockup</span>
+<a href="/" aria-label="BROADMIND home" style="display: flex; align-items: center">
+<img src="./assets/logo-lockup-black.svg" alt="BROADMIND" style="width: 132px; height: 36px; object-fit: contain; object-position: left center">
 </a>
 <div class="navlinks" style="display: flex; gap: 2px">
-<a href="#">Kit</a><a href="#">Signal</a><a href="#">Specs</a><a href="#">Team</a><a href="#">Blog</a><a href="#">FAQ</a>
+<a href="/#highlights">Kit</a><a href="/#signal">Signal</a><a href="/#specs">Specs</a><a href="/team">Team</a><a href="/blog/">Blog</a><a href="/#faq">FAQ</a>
 </div>
-<a class="btn btn-primary btn-sm" href="#">Reserve a kit</a>
+<a class="btn btn-primary btn-sm" href="/#access">Reserve a kit</a>
 </nav>
 </header>
 
@@ -189,13 +189,13 @@ a{color:#000000;text-decoration:none}a:hover{color:#000000}
 <h1 class="display rise" style="animation-delay: 200ms">Put it on.<br>Connect it.<br>Start recording.</h1>
 <p class="body rise" style="animation-delay: 500ms">The desktop app for the BROADMIND Research Kit. It walks you through fitting the eight-channel dry EEG headset, waits for the contacts to settle, then records every sample at full rate.</p>
 <div class="rise" style="animation-delay: 750ms; display: flex; flex-wrap: wrap; gap: 12px">
-<a class="btn btn-primary" href="#">Request beta access</a>
+<a class="btn btn-primary" href="#" data-copy-prompt>Prompt for your AI</a>
 <a class="btn btn-ghost" href="#install">Install with Homebrew</a>
 </div>
 <p class="caption tgrey rise" style="animation-delay: 950ms">v0.2.2 beta · Free during the beta · macOS 11 or later · Apple silicon and Intel</p>
 </div>
 <div class="formslot rise" style="animation-delay: 400ms; position: relative; height: 520px">
-<div class="slot drift" style="position: absolute; left: 0; right: -220px; top: 0; bottom: 0; border-radius: 48% 52% 46% 54% / 55% 45% 55% 45%">Glass form render<br>place from master files</div>
+<img class="drift" src="./assets/device-render.png" alt="The BROADMIND Research Kit: a white dry-electrode EEG headband with a flexible arm and eight contact electrodes" style="position: absolute; left: 0; right: -220px; top: 0; bottom: 0; width: calc(100% + 220px); height: 100%; object-fit: contain">
 </div>
 </div>
 
@@ -474,15 +474,15 @@ a{color:#000000;text-decoration:none}a:hover{color:#000000}
 
 <!-- CTA (black room) -->
 <section class="onblack" style="position: relative; padding: 160px 0 0; overflow: hidden">
-<div class="slot drift hidesm" aria-hidden="true" style="position: absolute; right: -140px; top: 60px; width: 560px; height: 420px; border-radius: 52% 48% 58% 42% / 46% 54% 46% 54%">Glass form render<br>place from master files</div>
+<img class="drift hidesm" aria-hidden="true" src="./assets/device-render.png" alt="" style="position: absolute; right: -140px; top: 60px; width: 560px; height: 420px; object-fit: contain; opacity: .92">
 <div class="wrap" style="position: relative">
 <div class="reveal" style="display: flex; flex-direction: column; gap: 26px; max-width: 760px">
 <span class="kicker soft">Free during the beta</span>
 <h2 class="display">Your next session starts in three steps.</h2>
 <p class="body soft">Eight dry EEG channels, raw data and an open SDK, with an app that gets out of your way.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px">
-<a class="btn btn-primary" href="#">Request beta access</a>
-<a class="btn btn-ghost" href="#">Reserve a kit</a>
+<a class="btn btn-primary" href="#" data-copy-prompt>Prompt for your AI</a>
+<a class="btn btn-ghost" href="/#access">Reserve a kit</a>
 </div>
 </div>
 </div>
@@ -494,16 +494,16 @@ a{color:#000000;text-decoration:none}a:hover{color:#000000}
 <div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
 <div class="foot">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<span class="slot" style="width: 160px; height: 44px; border-radius: 8px; font-size: 10px">Logo lockup</span>
+<img src="./assets/logo-lockup-black.svg" alt="BROADMIND" style="width: 160px; height: 44px; object-fit: contain; object-position: left center">
 <p class="caption tgrey" style="max-width: 300px">A research instrument for BCI work. Eight dry EEG channels, raw data, open SDK.</p>
 </div>
-<nav aria-label="Kit" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Kit</span><a href="#">Signal</a><a href="#">Specs</a><a href="#">GUI</a><a href="#">FAQ</a></nav>
-<nav aria-label="Company" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Company</span><a href="#">Team</a><a href="#">Blog</a><a href="#">Press kit</a></nav>
-<nav aria-label="Connect" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Connect</span><a href="#">Early access</a><a href="#">Contact</a></nav>
+<nav aria-label="Kit" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Kit</span><a href="/#signal">Signal</a><a href="/#specs">Specs</a><a href="/gui/">GUI</a><a href="/#faq">FAQ</a></nav>
+<nav aria-label="Company" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Company</span><a href="/team">Team</a><a href="/blog/">Blog</a><a href="/press-kit">Press kit</a></nav>
+<nav aria-label="Connect" style="display: flex; flex-direction: column; gap: 12px"><span class="label">Connect</span><a href="/#access">Early access</a><a href="mailto:hello@broadmind.me">Contact</a></nav>
 </div>
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid #D5D5D5">
 <span class="caption tgrey" style="font-size: 14px; max-width: 640px">BROADMIND is a research instrument, not a medical device. Specs are provisional, last verified 17 November 2026.</span>
-<span class="caption tgrey" style="font-size: 14px; display: flex; gap: 18px">© 2026 <a href="#" style="color: #595959">Privacy</a><a href="#" style="color: #595959">Terms</a><a href="#" style="color: #595959">Imprint</a></span>
+<span class="caption tgrey" style="font-size: 14px; display: flex; gap: 18px">© 2026 <a href="/privacy" style="color: #595959">Privacy</a><a href="/terms" style="color: #595959">Terms</a><a href="/imprint" style="color: #595959">Imprint</a></span>
 </div>
 </div>
 </footer>
@@ -606,6 +606,45 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function () {
+  var PROMPT = [
+    "Install BROADMIND GUI, the desktop app for the BROADMIND Research Kit, on this Mac.",
+    "",
+    "Run:",
+    "  brew tap broadmind-bci/broadmind-gui",
+    "  brew install --cask broadmind-gui",
+    "",
+    "Then open BROADMIND GUI and check it starts: it should show the starter screen,",
+    "and pressing Start Session records 8 channels of EEG. Recordings and settings",
+    "go to ~/Documents/BROADMIND GUI. If brew is missing, tell me before installing anything."
+  ].join("\n");
+  function copy(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest("[data-copy-prompt]");
+    if (!el) return;
+    e.preventDefault();
+    copy(PROMPT).then(function () {
+      if (el.dataset.busy) return;
+      el.dataset.busy = "1";
+      var original = el.textContent;
+      el.textContent = "Copied \u2014 paste into your AI";
+      setTimeout(function () { el.textContent = original; delete el.dataset.busy; }, 2200);
+    });
+  });
+})();
 </script>
 </body>
 </html>
