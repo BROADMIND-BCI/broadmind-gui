@@ -11,6 +11,14 @@
 
 ---
 
+## Watch the demo
+
+26 seconds, no narration: the starter page runs through its cycle, then a playback session streams.
+
+[![Watch the BROADMIND GUI demo](docs/media/broadmind-gui-demo-poster.png)](docs/media/broadmind-gui-demo.mp4)
+
+[Download the demo video (MP4, 12 MB, 1440x1080)](docs/media/broadmind-gui-demo.mp4)
+
 ## Screenshots
 
 <p align="center">

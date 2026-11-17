@@ -419,7 +419,6 @@ void setup() {
     p6 = bmPFont(false, 10);
 
     cog = loadImage("broadmind-lockup-white.png"); //splash lockup on black
-    zzCaptureInit(); // TEMP
     bmTestInit(); // automated test harness (inert unless env var set)
 
     // check if the current directory is writable
@@ -1028,7 +1027,6 @@ void systemDraw() { //for drawing to the screen
     //Display GUI version and FPS in the title bar of the app
     surface.setTitle("BROADMIND GUI " + localGUIVersionString + " - " + localGUIVersionDate + " - " + int(frameRate) + " fps");
     bmTestTick(); // automated test harness
-    zzTick(); // TEMP
 }
 
 void requestReinit() {
