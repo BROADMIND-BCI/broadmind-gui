@@ -10,15 +10,18 @@
 #   3. upload the .dmg to the URL below and update `version` + `sha256`
 #   4. push the cask to the tap repo BROADMIND-BCI/homebrew-broadmind-gui (Casks/broadmind-gui.rb)
 #
-# NOT live yet: the disk image is internal-only until the four unresolved third-party libraries in
-# packaging/THIRD-PARTY.md are cleared and the app is notarised. Until then recipients cannot
-# install with these commands; the page at https://broadmind.me/gui says so.
+# The published cask lives in the tap repo BROADMIND-BCI/homebrew-broadmind-gui; this copy is the
+# source of truth in the app repo. The image is hosted on the GitHub release below.
+#
+# Still open: notarisation, and four inherited libraries whose licences are unconfirmed
+# (packaging/THIRD-PARTY.md §2). Installing through brew clears quarantine, which is why the cask
+# is the supported route while the build is unnotarised.
 
 cask "broadmind-gui" do
   version "0.2.2"
   sha256 "d7756fe2dc6065958cea9758f57b94e5d81cc9c5b601801cbf26c70d7d12d3c1"
 
-  url "https://broadmind.me/downloads/BROADMIND-GUI-#{version}.dmg"
+  url "https://github.com/BROADMIND-BCI/broadmind-gui/releases/download/v#{version}-beta.1/BROADMIND-GUI-#{version}.dmg"
   name "BROADMIND GUI"
   desc "Desktop app for the BROADMIND Research Kit"
   homepage "https://broadmind.me/gui"
