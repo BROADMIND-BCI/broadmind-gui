@@ -57,7 +57,14 @@ made deliberately and reviewed — never as an accident.
 | Release | Where | Note |
 |---|---|---|
 | `v0.3.0-alpha.1` | this repository | 0.3.0 Alpha — Cyton over USB, Apple Silicon macOS |
-| `v0.2.2-beta.1` | `BROADMIND-BCI/openbci-gui-fork` (archived fork) | earlier beta, kept for the record |
+| `v0.2.2-beta.1` | this repository | earlier beta, republished so existing download links keep resolving |
+
+## Repository history
+
+The earlier fork repository was retired once this one was published. Pre-snapshot git history is
+therefore not in this repository; the table above and this file are the record. The build artefacts
+themselves are unchanged — the release assets are the same files, byte for byte, verified by
+sha256.
 
 ## No affiliation
 
