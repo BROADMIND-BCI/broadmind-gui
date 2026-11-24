@@ -1,0 +1,11 @@
+The Java runtime included in this bundle is Eclipse Temurin (OpenJDK)
+17.0.20.1, licensed under the GNU General Public License version 2 with the
+Classpath Exception.
+
+  https://openjdk.org/legal/gplv2+ce.html
+  https://adoptium.net
+
+Source for the runtime is available from https://github.com/adoptium/temurin17-binaries
+and from https://openjdk.org. The Classpath Exception permits linking this
+runtime with independent modules to produce an executable, and permits
+distribution of that executable under terms of your choice.

@@ -1,0 +1,16 @@
+BROADMIND GUI
+
+This product includes software developed by OpenBCI and its contributors
+(OpenBCI GUI, https://github.com/OpenBCI/OpenBCI_GUI), used under the MIT
+licence, copyright (c) 2018 OpenBCI. The licence text is retained verbatim in
+LICENSE.
+
+BROADMIND modifications to the presentation, packaging and first-run experience
+are copyright (c) 2026 Broad Mind Inc. and are released under the same MIT
+licence.
+
+Third-party components bundled with the application (Processing, controlP5,
+BrainFlow, LSL and others) remain under their own licences; their notices ship
+inside the application bundle.
+
+BROADMIND is not affiliated with, endorsed by or sponsored by OpenBCI.
