@@ -434,7 +434,7 @@ void setup() {
     File dummy = new File(sketchPath());
     if (!dummy.canWrite()) {
         showStartupError = true;
-        startupErrorMessage = "OpenBCI GUI was launched from a read-only location.\n\n" +
+        startupErrorMessage = "BROADMIND GUI was launched from a read-only location.\n\n" +
             "Please move the application to a different location and re-launch.\n" +
             "If you just downloaded the GUI, move it out of the disk image or Downloads folder.\n\n" +
             "If this error persists, contact the OpenBCI team for support.";

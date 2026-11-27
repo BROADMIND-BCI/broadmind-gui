@@ -89,6 +89,11 @@ It is verified by hiding `Processing.app` and confirming the app still reaches
 [docs/DISTRIBUTION.md](docs/DISTRIBUTION.md) — including the four inherited libraries whose
 licences are **not yet confirmed**, which is why the bundle is internal-use only for now.
 
+## Release process
+
+Versioning, the release checklist, the verification commands and the traps already hit:
+[docs/RELEASE-PROCESS.md](docs/RELEASE-PROCESS.md).
+
 ## Checking a release
 
 ```bash

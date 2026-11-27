@@ -420,7 +420,7 @@ class TopNav {
                openURLInBrowser("https://broadmind.me");
             }
         });
-        shopButton.setDescription("Head to our online store to purchase the latest OpenBCI hardware and accessories.");
+        shopButton.setDescription("BROADMIND Research Kit, accessories and documentation - broadmind.me");
     }
 
     private void createUpdateGuiButton(String text, int _x, int _y, int _w, int _h, PFont font, int _fontSize, color _bg, color _textColor) {
