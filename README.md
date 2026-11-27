@@ -53,6 +53,17 @@ Read the engineering detail in [docs/CYTON-BASELINE.md](docs/CYTON-BASELINE.md) 
 **verified** and what still needs hardware - and the cross-client spec in
 [docs/ENGINE-CONTRACT.md](docs/ENGINE-CONTRACT.md).
 
+## Safety
+
+- **Battery only.** The headset is powered by its own battery.
+- **No galvanic isolation.** There is no isolation barrier between the headset and the recording
+  machine.
+- **Unplug the laptop.** Disconnect the charger and record on battery.
+- **Not a medical device.** A research instrument; it does not diagnose, treat or monitor any
+  condition.
+- **Wireless is not shipped.** Bluetooth LE streaming is in development; this build records over
+  USB only.
+
 ## Welcome!
 
 Thank you for visiting the repository for BROADMIND's build of the OpenBCI GUI.
