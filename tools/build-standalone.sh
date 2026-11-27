@@ -128,9 +128,19 @@ JAVA="$RES/jdk/bin/java"
 GUEST_HOME="${BROADMIND_GUI_HOME:-$HOME}"
 USER_SKETCH="$GUEST_HOME/Documents/BROADMIND GUI/app"
 mkdir -p "$USER_SKETCH"
-[ -e "$USER_SKETCH/data" ] || ln -s "$RES/sketch/data" "$USER_SKETCH/data"
+# A dangling symlink (portable install moved or deleted) fails -e, and ln then refuses with
+# "File exists" - so clear a broken link before recreating it.
+if [ ! -e "$USER_SKETCH/data" ]; then
+  rm -f "$USER_SKETCH/data"
+  ln -s "$RES/sketch/data" "$USER_SKETCH/data"
+fi
 mkdir -p "$USER_SKETCH"
-[ -e "$USER_SKETCH/data" ] || ln -s "$RES/sketch/data" "$USER_SKETCH/data"
+# A dangling symlink (portable install moved or deleted) fails -e, and ln then refuses with
+# "File exists" - so clear a broken link before recreating it.
+if [ ! -e "$USER_SKETCH/data" ]; then
+  rm -f "$USER_SKETCH/data"
+  ln -s "$RES/sketch/data" "$USER_SKETCH/data"
+fi
 
 CP="$RES/classes"
 while IFS= read -r j; do CP="$CP:$j"; done < <(find "$RES/java" "$RES/libraries" "$RES" -maxdepth 4 -name '*.jar' 2>/dev/null)
