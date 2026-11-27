@@ -80,8 +80,8 @@ class W_Networking extends Widget {
             "12348" };
     private String[] lslTextFieldNames = { "LSL_name1", "LSL_type1", "LSL_name2", "LSL_type2", "LSL_name3", "LSL_type3" };
     private String[] lslTextDefaultVals = { "obci_eeg1", "EEG", "obci_eeg2", "EEG", "obci_eeg3", "EEG" };
-    private final String NETWORKING_GUIDE_URL = "https://docs.openbci.com/Software/OpenBCISoftware/GUIWidgets/#networking";
-    private final String NETWORKING_DATA_OUTPUTS_URL = "https://docs.google.com/document/d/e/2PACX-1vR_4DXPTh1nuiOwWKwIZN3NkGP3kRwpP4Hu6fQmy3jRAOaydOuEI1jket6V4V6PG4yIG15H1N7oFfdV/pub";
+    private final String NETWORKING_GUIDE_URL = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#networking-outputs";
+    private final String NETWORKING_DATA_OUTPUTS_URL = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#networking-outputs";
     private boolean configIsVisible = false;
     private boolean layoutIsVisible = false;
 

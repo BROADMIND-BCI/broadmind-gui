@@ -62,7 +62,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //                       Global Variables & Instances
 //------------------------------------------------------------------------
 //Used to check GUI version in TopNav.pde and displayed on the splash screen on startup
-String localGUIVersionString = "v0.3.0-alpha.1";
+String localGUIVersionString = "v0.3.1-alpha.1";
 String localGUIVersionDate = "November 2026";
 String guiLatestVersionGithubAPI = "https://api.github.com/repos/BROADMIND-BCI/broadmind-gui/releases/latest"; //BROADMIND
 String guiLatestReleaseLocation = "https://github.com/BROADMIND-BCI/broadmind-gui/releases"; //BROADMIND
@@ -475,7 +475,7 @@ void setup() {
     }
     println("JVM Version: " + System.getProperty("java.version"));
     println("Welcome to the Processing-based OpenBCI GUI!"); //Welcome line.
-    println("For more information, please visit: https://docs.openbci.com/Software/OpenBCISoftware/GUIDocs/");
+    println("For more information, please visit: https://github.com/BROADMIND-BCI/broadmind-gui");
     
     // Copy sample data to the Users' Documents folder +  create Recordings folder
     directoryManager.init();
@@ -738,14 +738,14 @@ void initSystem() {
         if (guiSettings.getShowCytonSmoothingPopup()) {
             println("BROADMIND GUI: Showing Cyton FTDI Buffer Fix Popup");
             String popupTitle = "BROADMIND FTDI Buffer Fix Info";
-            String popupString = "The default settings for the Cyton Dongle driver can make data appear \"choppy.\" Visit the OpenBCI Docs to learn how to fix this. For now, the GUI will \"smooth\" the data for you.";
-            String popupButtonText = "View Fix";
+            String popupString = "The dongle driver can deliver samples in bursts, which can make the trace look choppy. BROADMIND GUI now paces the display for you. If it still stutters, check for a conflicting third-party FTDI driver.";
+            String popupButtonText = "Read more";
             String popupButtonURL;
             if (isMac()) {
-                popupButtonURL = "https://docs.openbci.com/Troubleshooting/FTDI_Fix_Mac/";
+                popupButtonURL = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting";
                 PopupMessage msg = new PopupMessage(popupTitle, popupString, popupButtonText, popupButtonURL);
             } else if (isLinux()){
-                popupButtonURL = "https://docs.openbci.com/Troubleshooting/FTDI_Fix_Linux/";
+                popupButtonURL = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting";
                 PopupMessage msg = new PopupMessage(popupTitle, popupString, popupButtonText, popupButtonURL);
             }
             guiSettings.setShowCytonSmoothingPopup(false);

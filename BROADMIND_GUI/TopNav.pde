@@ -399,7 +399,7 @@ class TopNav {
                tutorialSelector.toggleVisibility();
             }
         });
-        tutorialsButton.setDescription("Click to find links to helpful online tutorials and getting started guides. Also, check out how to create custom widgets for the GUI!");
+        tutorialsButton.setDescription("BROADMIND getting started, support and custom widget documentation.");
     }
 
     private void createIssuesButton(String text, int _x, int _y, int _w, int _h, PFont font, int _fontSize, color _bg, color _textColor) {
@@ -1075,7 +1075,7 @@ class TutorialSelector {
         gettingStarted = createButton(tutorial_cp5, name, text, _x, _y, _w, _h);
         gettingStarted.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-                openURLInBrowser("https://docs.openbci.com/GettingStarted/GettingStartedLanding/");
+                openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#getting-started");
                 toggleVisibility(); //shut layoutSelector if something is selected
             }
         });
@@ -1086,7 +1086,7 @@ class TutorialSelector {
         testingImpedance = createButton(tutorial_cp5, name, text, _x, _y, _w, _h);
         testingImpedance.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-                openURLInBrowser("https://docs.openbci.com/Software/OpenBCISoftware/GUIDocs/#impedance-testing");
+                openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#impedance-testing");
                 toggleVisibility(); //shut layoutSelector if something is selected
             }
         });
@@ -1097,7 +1097,7 @@ class TutorialSelector {
         troubleshootingGuide = createButton(tutorial_cp5, name, text, _x, _y, _w, _h);
         troubleshootingGuide.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-                openURLInBrowser("https://docs.openbci.com/Troubleshooting/GUI_Troubleshooting/");
+                openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting");
                 toggleVisibility(); //shut layoutSelector if something is selected
             }
         });
@@ -1108,7 +1108,7 @@ class TutorialSelector {
         customWidgets = createButton(tutorial_cp5, name, text, _x, _y, _w, _h);
         customWidgets.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-                openURLInBrowser("https://docs.openbci.com/Software/OpenBCISoftware/GUIWidgets/#custom-widget");
+                openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#custom-widgets");
                 toggleVisibility(); //shut layoutSelector if something is selected
             }
         });
@@ -1119,7 +1119,7 @@ class TutorialSelector {
         openbciForum = createButton(tutorial_cp5, name, text, _x, _y, _w, _h);
         openbciForum.onRelease(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
-                openURLInBrowser("https://openbci.com/forum/");
+                openURLInBrowser("https://github.com/BROADMIND-BCI/broadmind-gui/issues");
                 toggleVisibility(); //shut layoutSelector if something is selected
             }
         });
@@ -1132,11 +1132,11 @@ class TutorialSelector {
             public void controlEvent(CallbackEvent theEvent) {
                 String ftdiDriverDocUrl;
                 if (isMac()) {
-                    ftdiDriverDocUrl = "https://docs.openbci.com/Troubleshooting/FTDI_Fix_Mac/";
+                    ftdiDriverDocUrl = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting";
                 } else if (isLinux()){
-                    ftdiDriverDocUrl = "https://docs.openbci.com/Troubleshooting/FTDI_Fix_Linux/";
+                    ftdiDriverDocUrl = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting";
                 } else {
-                    ftdiDriverDocUrl = "https://docs.openbci.com/Troubleshooting/FTDI_Fix_Windows/";
+                    ftdiDriverDocUrl = "https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting";
                 }
                 openURLInBrowser(ftdiDriverDocUrl);
                 toggleVisibility(); //shut layoutSelector if something is selected

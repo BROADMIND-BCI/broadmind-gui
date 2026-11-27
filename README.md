@@ -6,7 +6,7 @@
 
 <p align="center">
   Visualise and record EEG from the BROADMIND Research Kit - Cyton over USB<br>
-  <strong>v0.3.0 Alpha &middot; November 2026</strong>
+  <strong>v0.3.1 Alpha &middot; November 2026</strong>
 </p>
 
 ---
@@ -88,6 +88,11 @@ It is verified by hiding `Processing.app` and confirming the app still reaches
 `Setup is complete`. Size, legal position and the release checklist are in
 [docs/DISTRIBUTION.md](docs/DISTRIBUTION.md) — including the four inherited libraries whose
 licences are **not yet confirmed**, which is why the bundle is internal-use only for now.
+
+## Support
+
+Getting started, Cyton connection, impedance, troubleshooting, networking, custom widgets and
+how to report a problem: [docs/SUPPORT.md](docs/SUPPORT.md).
 
 ## Release process
 
@@ -183,7 +188,7 @@ To report a problem or suggest an enhancement in this build, please
 
 * The hardware and the company: [broadmind.me](https://broadmind.me)
 * The open Python SDK: [broadmind-eeg](https://github.com/BROADMIND-BCI/broadmind-eeg)
-* A tutorial to [make your own GUI widget](https://docs.openbci.com/Software/OpenBCISoftware/GUIWidgets/#custom-widget)
+* A tutorial to [make your own GUI widget](https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#custom-widgets)
 * Upstream: [OpenBCI](https://www.openbci.com)
 
 And of course, you'll want to know our:
@@ -245,7 +250,7 @@ OpenGL acceleration is required.
 
 - If you are on a Mac and you seem to get a "spinning wheel of death" when trying to open a dialog box to view files (example "SELECT PLAYBACK FILE" button), [please update your Java Runtime Environment](https://www.java.com/en/download/). This happens because Java was not packaged with a version of the GUI producing this error.
 
-- For more on GUI troubleshooting, head over to the [GUI Troublshooting Doc](https://docs.openbci.com/Troubleshooting/GUI_Troubleshooting/).
+- For more on GUI troubleshooting, head over to the [BROADMIND support notes](https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#troubleshooting).
 
 ## Diagram
 
@@ -270,8 +275,8 @@ MIT
 
 - [OpenBCI main site](https://www.openbci.com)
 - [Upstream GUI repository](https://github.com/OpenBCI/OpenBCI_GUI)
-- [GUI widget tutorial](https://docs.openbci.com/Software/OpenBCISoftware/GUIWidgets/#custom-widget)
-- [Run GUI from Processing IDE](https://docs.openbci.com/Software/OpenBCISoftware/GUIDocs/#running-the-openbci-gui-from-the-processing-ide)
+- [GUI widget tutorial](https://github.com/BROADMIND-BCI/broadmind-gui/blob/main/docs/SUPPORT.md#custom-widgets)
+- [Install and run](README.md#installing)
 
 ---
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.1 Alpha - November 2026
+
+### Changed
+- **Every help link now leads to BROADMIND resources.** The nav's Kit, Help, Issues and Update
+  buttons, the networking widgets, the custom-widget template, the FTDI popup and the startup banner
+  pointed at upstream OpenBCI pages. They now go to `docs/SUPPORT.md` in this repository or to
+  broadmind.me, with upstream references kept only where a detail genuinely lives there and labelled
+  as such.
+- Kit tooltip no longer advertises "the latest OpenBCI hardware and accessories"; it describes the
+  BROADMIND Research Kit and broadmind.me. The read-only-location error says BROADMIND GUI.
+- FTDI popup copy now reflects what this build does: the display pacing is built in, so the popup
+  explains the conflict case instead of sending users to a driver-fix page.
+
+### Added
+- `docs/SUPPORT.md` — getting started, Cyton connection, impedance, troubleshooting, networking,
+  custom widgets and how to report a problem.
+- `docs/RELEASE-PROCESS.md` — sources of truth, release checklist, verification commands and the
+  trap table accumulated so far.
+
+---
 ## 0.3.0 Alpha - November 2026
 
 **Scope change: Cyton only.** BROADMIND GUI now supports the Cyton board over USB serial. The
